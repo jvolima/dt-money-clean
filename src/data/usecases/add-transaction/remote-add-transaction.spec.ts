@@ -1,33 +1,27 @@
-interface HttpPostParams {
-  url: string
+import { HttpPostClientSpy } from '@/data/test'
+import { RemoteAddTransaction } from './remote-add-transaction'
+import { faker } from '@faker-js/faker'
+
+type SutTypes = {
+  sut: RemoteAddTransaction
+  httpPostClientSpy: HttpPostClientSpy
 }
 
-class HttpPostClientSpy {
-  url?: string
+const makeSut = (url: string = faker.internet.url()): SutTypes => {
+  const httpPostClientSpy = new HttpPostClientSpy()
+  const sut = new RemoteAddTransaction(url, httpPostClientSpy)
 
-  async post (params: HttpPostParams): Promise<void> {
-    this.url = params.url
-  }
-}
-
-class RemoteAddTransaction {
-  constructor (
-    private readonly url: string,
-    private readonly httpPostClient
-  ) {}
-
-  async add (): Promise<void> {
-    await this.httpPostClient.post({
-      url: this.url
-    })
+  return {
+    sut,
+    httpPostClientSpy
   }
 }
 
 describe('RemoteAddTransaction', () => {
   it('Should be able to call HttpPostClient with correct URL', async () => {
-    const httpPostClientSpy = new HttpPostClientSpy()
-    const url = 'http://localhost:3333'
-    const sut = new RemoteAddTransaction(url, httpPostClientSpy)
+    const url = faker.internet.url()
+    const { sut, httpPostClientSpy } = makeSut(url)
+
     await sut.add()
     expect(httpPostClientSpy.url).toBe(url)
   })
