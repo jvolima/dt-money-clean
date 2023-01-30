@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { mockPostRequest } from '@/data/test'
 import type axios from 'axios'
 import { mockAxios } from '../test'
 import { AxiosHttpClient } from './axios-http-client'
@@ -23,12 +23,16 @@ const makeSut = (): SutTypes => {
 describe('AxiosHttpClient', () => {
   it('Should be able to call axios with correct values', async () => {
     const { sut, mockedAxios } = makeSut()
-    const request = {
-      url: faker.internet.url(),
-      body: faker.random.word()
-    }
+    const request = mockPostRequest()
     await sut.post(request)
 
     expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body)
+  })
+
+  it('Should be able to return the correct statusCode and body', async () => {
+    const { sut, mockedAxios } = makeSut()
+    const promise = sut.post(mockPostRequest())
+
+    expect(promise).toEqual(mockedAxios.post.mock.results[0].value)
   })
 })
