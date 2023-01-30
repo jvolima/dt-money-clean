@@ -43,4 +43,11 @@ describe('RemoteAddTransaction', () => {
     const promise = sut.add(mockAddTransactionParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('Should be able to throw UnexpectedError if HttpPostClient returns 404', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    httpPostClientSpy.response.statusCode = HttpStatusCode.notFound
+    const promise = sut.add(mockAddTransactionParams())
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
 })
