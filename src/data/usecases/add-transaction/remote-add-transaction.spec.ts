@@ -1,6 +1,7 @@
 import { HttpPostClientSpy } from '@/data/test'
 import { RemoteAddTransaction } from './remote-add-transaction'
 import { faker } from '@faker-js/faker'
+import { type AddTransactionParams } from '@/domain/usecases/add-transaction'
 
 type SutTypes = {
   sut: RemoteAddTransaction
@@ -22,7 +23,24 @@ describe('RemoteAddTransaction', () => {
     const url = faker.internet.url()
     const { sut, httpPostClientSpy } = makeSut(url)
 
-    await sut.add()
+    await sut.add({
+      description: 'description',
+      type: 'income',
+      price: 10,
+      category: 'test'
+    })
     expect(httpPostClientSpy.url).toBe(url)
+  })
+
+  it('Should be able to call HttpPostClient with correct body', async () => {
+    const transaction: AddTransactionParams = {
+      description: 'description',
+      type: 'income',
+      price: 10,
+      category: 'test'
+    }
+    const { sut, httpPostClientSpy } = makeSut()
+    await sut.add(transaction)
+    expect(httpPostClientSpy.body).toEqual(transaction)
   })
 })
