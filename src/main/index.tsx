@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Transactions from '@/presentation/pages/transactions'
+import App from '@/presentation/App'
 
 ReactDOM.render(
-  <Transactions />,
+  <App />,
   document.getElementById('main')
 )
