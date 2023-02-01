@@ -29,18 +29,6 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1rem;
 
-    input {
-      border-radius: 6px;
-      border: 0;
-      background: ${(props) => props.theme['gray-900']};
-      color: ${(props) => props.theme['gray-300']};
-      padding: 1rem;
-
-      &::placeholder {
-        color: ${(props) => props.theme['gray-500']};
-      }
-    }
-
     button[type='submit'] {
       height: 58px;
       border: 0;
@@ -63,6 +51,13 @@ export const Content = styled(Dialog.Content)`
       }
     }
   }
+`
+
+export const Inputs = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 `
 
 export const CloseButton = styled(Dialog.Close)`
