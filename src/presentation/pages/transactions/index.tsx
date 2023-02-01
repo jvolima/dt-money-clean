@@ -1,7 +1,10 @@
+import { Header } from '@/presentation/components/header'
 import React from 'react'
 
 export default function Transactions (): JSX.Element {
   return (
-    <h1>Hello World</h1>
+    <>
+      <Header />
+    </>
   )
 }

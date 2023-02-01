@@ -3,3 +3,4 @@ node_modules
 coverage
 public/js
 .coveralls.yml
+src/presentation/assets
