@@ -3,23 +3,31 @@ import React from 'react'
 import { HeaderContainer, HeaderContent, NewTransactionButton } from './styles'
 
 import logoImg from '../../assets/logo.svg'
-
-import * as Dialog from '@radix-ui/react-dialog'
 import { NewTransactionModal } from '../newTransactionModal'
 
 export function Header (): JSX.Element {
+  function handleOpenModal (): void {
+    const dialog = document.getElementById('modal') as HTMLDialogElement
+    dialog.showModal()
+  }
+
+  function handleCloseModal (): void {
+    const dialog = document.getElementById('modal') as HTMLDialogElement
+    dialog.close()
+  }
+
   return (
     <HeaderContainer>
       <HeaderContent>
         <img src={logoImg} alt="" />
 
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <NewTransactionButton>Nova transação</NewTransactionButton>
-          </Dialog.Trigger>
+        <NewTransactionButton onClick={handleOpenModal}>
+          Nova transação
+        </NewTransactionButton>
 
-          <NewTransactionModal />
-        </Dialog.Root>
+        <dialog id="modal">
+          <NewTransactionModal onClose={handleCloseModal} />
+        </dialog>
       </HeaderContent>
     </HeaderContainer>
   )

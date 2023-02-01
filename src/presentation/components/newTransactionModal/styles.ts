@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import * as Dialog from '@radix-ui/react-dialog'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 
-export const Overlay = styled(Dialog.Overlay)`
+export const Overlay = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -10,7 +9,7 @@ export const Overlay = styled(Dialog.Overlay)`
   background: rgba(0, 0, 0, 0.75);
 `
 
-export const Content = styled(Dialog.Content)`
+export const Content = styled.div`
   min-width: 32rem;
   border-radius: 6px;
   padding: 2.5rem 3rem;
@@ -21,6 +20,11 @@ export const Content = styled(Dialog.Content)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  h1 {
+    color: ${props => props.theme.white};
+    font-size: 1.5rem;
+  }
 
   form {
     margin-top: 2rem;
@@ -60,7 +64,7 @@ export const Inputs = styled.div`
   gap: 2.5rem;
 `
 
-export const CloseButton = styled(Dialog.Close)`
+export const CloseButton = styled.button`
   position: absolute;
   background: transparent;
   border: 0;

@@ -1,18 +1,21 @@
 import React from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionTypeButton } from './styles'
 import { Input } from '../input'
 
-export function NewTransactionModal (): JSX.Element {
+type Props = {
+  onClose: () => void
+}
+
+export function NewTransactionModal ({ onClose }: Props): JSX.Element {
   return (
-    <Dialog.Portal>
+    <div>
       <Overlay />
 
       <Content>
-        <Dialog.Title>Nova transação</Dialog.Title>
+        <h1>Nova transação</h1>
 
-        <CloseButton>
+        <CloseButton onClick={onClose}>
           <X size={24} />
         </CloseButton>
 
@@ -55,6 +58,6 @@ export function NewTransactionModal (): JSX.Element {
           </button>
         </form>
       </Content>
-    </Dialog.Portal>
+    </div>
   )
 }
