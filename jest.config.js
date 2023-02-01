@@ -14,6 +14,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1'
+    '@/(.*)': '<rootDir>/src/$1',
+    '\\.(png|jpg|webp|ttf|woff|woff2|svg|mp4)$': '<rootDir>/fileMock.js'
   }
 }

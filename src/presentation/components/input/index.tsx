@@ -15,6 +15,7 @@ export function Input (props: Props): JSX.Element {
         {...props}
         ref={inputRef}
         title={error}
+        data-testid={props.name}
         placeholder=" "
         readOnly
         onFocus={e => { e.target.readOnly = false }}

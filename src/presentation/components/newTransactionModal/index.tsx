@@ -19,16 +19,19 @@ export function NewTransactionModal (): JSX.Element {
         <form>
           <Inputs>
             <Input
+              name="description"
               type="text"
               placeholder="Descrição"
               required
             />
             <Input
+              name="price"
               type="number"
               placeholder="Preço"
               required
             />
             <Input
+              name="category"
               type="text"
               placeholder="Categoria"
               required
