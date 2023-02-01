@@ -1,14 +1,17 @@
-import React, { useRef } from 'react'
+import { FormContext } from '@/presentation/contexts/form/form-context'
+import React, { useContext, useRef } from 'react'
 import { InputContainer } from './styles'
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 export function Input (props: Props): JSX.Element {
+  const { state } = useContext(FormContext)
+  const error = state[`${props.name}Error`]
   const inputRef = useRef<HTMLInputElement>()
-  const error = ''
 
   return (
     <InputContainer
+      data-testid={`${props.name}-wrap`}
       data-status={error ? 'invalid' : 'valid'}
     >
       <input
@@ -21,6 +24,7 @@ export function Input (props: Props): JSX.Element {
         onFocus={e => { e.target.readOnly = false }}
       />
       <label
+        data-testid={`${props.name}-label`}
         onClick={() => { inputRef.current.focus() }}
         title={error}
       >
