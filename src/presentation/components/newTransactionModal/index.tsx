@@ -14,25 +14,29 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
   const [state, setState] = useState({
     description: '',
     descriptionError: '',
-    priceError: 'Campo obrigatório',
+    price: '',
+    priceError: '',
     categoryError: 'Campo obrigatório',
     typeError: 'Campo obrigatório'
   })
 
   useEffect(() => {
-    const { description } = state
+    const { description, price } = state
 
     const formData = {
-      description
+      description,
+      price
     }
 
     const descriptionError = validation.validate('description', formData)
+    const priceError = validation.validate('price', formData)
 
     setState({
       ...state,
-      descriptionError
+      descriptionError,
+      priceError
     })
-  }, [state.description])
+  }, [state.description, state.price])
 
   return (
     <div>
