@@ -47,7 +47,7 @@ describe('NewTransactionModal component', () => {
     testStatusForField(sut, 'category', validationError)
 
     const type = sut.getByTestId('type')
-    expect(type.title).toBe('Campo obrigatório')
+    expect(type.title).toBe(validationError)
 
     const submitButton = sut.getByTestId('submit') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
@@ -75,5 +75,15 @@ describe('NewTransactionModal component', () => {
     const category = sut.getByTestId('category')
     fireEvent.input(category, { target: { value: faker.random.word() } })
     testStatusForField(sut, 'category', validationError)
+  })
+
+  it('Should be able to show typeError if validation fails', () => {
+    const validationError = faker.random.words()
+    const sut = makeSut({ validationError })
+    const type = sut.getByTestId('type')
+    const income = sut.getByTestId('income')
+    const outcome = sut.getByTestId('outcome')
+    fireEvent.click(faker.helpers.arrayElement([income, outcome]))
+    expect(type.title).toBe(validationError)
   })
 })
