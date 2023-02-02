@@ -44,7 +44,7 @@ describe('NewTransactionModal component', () => {
 
     testStatusForField(sut, 'description', validationError)
     testStatusForField(sut, 'price', validationError)
-    testStatusForField(sut, 'category', 'Campo obrigatório')
+    testStatusForField(sut, 'category', validationError)
 
     const type = sut.getByTestId('type')
     expect(type.title).toBe('Campo obrigatório')
@@ -67,5 +67,13 @@ describe('NewTransactionModal component', () => {
     const price = sut.getByTestId('price')
     fireEvent.input(price, { target: { value: faker.random.word() } })
     testStatusForField(sut, 'price', validationError)
+  })
+
+  it('Should be able to show categoryError if validation fails', () => {
+    const validationError = faker.random.words()
+    const sut = makeSut({ validationError })
+    const category = sut.getByTestId('category')
+    fireEvent.input(category, { target: { value: faker.random.word() } })
+    testStatusForField(sut, 'category', validationError)
   })
 })
