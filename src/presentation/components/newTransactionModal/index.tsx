@@ -18,29 +18,33 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
     priceError: '',
     category: '',
     categoryError: '',
-    typeError: 'Campo obrigatório'
+    type: '',
+    typeError: ''
   })
 
   useEffect(() => {
-    const { description, price, category } = state
+    const { description, price, category, type } = state
 
     const formData = {
       description,
       price,
-      category
+      category,
+      type
     }
 
     const descriptionError = validation.validate('description', formData)
     const priceError = validation.validate('price', formData)
     const categoryError = validation.validate('category', formData)
+    const typeError = validation.validate('type', formData)
 
     setState({
       ...state,
       descriptionError,
       priceError,
-      categoryError
+      categoryError,
+      typeError
     })
-  }, [state.description, state.price, state.category])
+  }, [state.description, state.price, state.category, state.type])
 
   return (
     <div>
@@ -77,12 +81,12 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
             </Inputs>
 
             <TransactionType title={state.typeError} data-testid="type">
-              <TransactionTypeButton variant="income" value="income">
+              <TransactionTypeButton data-testid="income" variant="income" value="income">
                 <ArrowCircleUp size={24} />
                 Entrada
               </TransactionTypeButton>
 
-              <TransactionTypeButton variant="outcome" value="outcome">
+              <TransactionTypeButton data-testid="outcome" variant="outcome" value="outcome">
                 <ArrowCircleDown size={24} />
                 Saída
               </TransactionTypeButton>
