@@ -10,6 +10,15 @@ const makeSut = (): RenderResult => {
   return sut
 }
 
+const testStatusForField = (sut: RenderResult, fieldName: string, error: string): void => {
+  const wrap = sut.getByTestId(`${fieldName}-wrap`)
+  const field = sut.getByTestId(fieldName)
+  const label = sut.getByTestId(`${fieldName}-label`)
+  expect(wrap.getAttribute('data-status')).toBe(error ? 'invalid' : 'valid')
+  expect(field.title).toBe(error)
+  expect(label.title).toBe(error)
+}
+
 describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -24,26 +33,9 @@ describe('NewTransactionModal component', () => {
   it('Should be able to start with initial state', () => {
     const sut = makeSut()
 
-    const descriptionWrap = sut.getByTestId('description-wrap')
-    const description = sut.getByTestId('description')
-    const descriptionLabel = sut.getByTestId('description-label')
-    expect(descriptionWrap.getAttribute('data-status')).toBe('invalid')
-    expect(description.title).toBe('Campo obrigatório')
-    expect(descriptionLabel.title).toBe('Campo obrigatório')
-
-    const priceWrap = sut.getByTestId('price-wrap')
-    const price = sut.getByTestId('price')
-    const priceLabel = sut.getByTestId('price-label')
-    expect(priceWrap.getAttribute('data-status')).toBe('invalid')
-    expect(price.title).toBe('Campo obrigatório')
-    expect(priceLabel.title).toBe('Campo obrigatório')
-
-    const categoryWrap = sut.getByTestId('category-wrap')
-    const category = sut.getByTestId('category')
-    const categoryLabel = sut.getByTestId('category-label')
-    expect(categoryWrap.getAttribute('data-status')).toBe('invalid')
-    expect(category.title).toBe('Campo obrigatório')
-    expect(categoryLabel.title).toBe('Campo obrigatório')
+    testStatusForField(sut, 'description', 'Campo obrigatório')
+    testStatusForField(sut, 'price', 'Campo obrigatório')
+    testStatusForField(sut, 'category', 'Campo obrigatório')
 
     const type = sut.getByTestId('type')
     expect(type.title).toBe('Campo obrigatório')
