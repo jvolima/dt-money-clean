@@ -1,8 +1,16 @@
 import React from 'react'
-import { cleanup, render } from '@testing-library/react'
-import Transactions from '.'
+import { cleanup, render, type RenderResult } from '@testing-library/react'
+import { NewTransactionModal } from '.'
 
-describe('Transactions component', () => {
+const makeSut = (): RenderResult => {
+  const sut = render(
+    <NewTransactionModal onClose={() => {}} />
+  )
+
+  return sut
+}
+
+describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: jest.fn(),
@@ -14,9 +22,7 @@ describe('Transactions component', () => {
   afterEach(cleanup)
 
   it('Should be able to start with initial state', () => {
-    const sut = render(
-      <Transactions />
-    )
+    const sut = makeSut()
 
     const descriptionWrap = sut.getByTestId('description-wrap')
     const description = sut.getByTestId('description')
