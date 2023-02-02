@@ -1,20 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionTypeButton } from './styles'
 import { Input } from '../input'
 import { FormContext } from '@/presentation/contexts/form/form-context'
+import { type Validation } from '@/presentation/protols/validation'
 
 type Props = {
+  validation?: Validation
   onClose: () => void
 }
 
-export function NewTransactionModal ({ onClose }: Props): JSX.Element {
-  const [state] = useState({
-    descriptionError: 'Campo obrigatório',
+export function NewTransactionModal ({ validation, onClose }: Props): JSX.Element {
+  const [state, setState] = useState({
+    description: '',
+    descriptionError: '',
     priceError: 'Campo obrigatório',
     categoryError: 'Campo obrigatório',
     typeError: 'Campo obrigatório'
   })
+
+  useEffect(() => {
+    const { description } = state
+
+    const formData = {
+      description
+    }
+
+    const descriptionError = validation.validate('description', formData)
+
+    setState({
+      ...state,
+      descriptionError
+    })
+  }, [state.description])
 
   return (
     <div>
