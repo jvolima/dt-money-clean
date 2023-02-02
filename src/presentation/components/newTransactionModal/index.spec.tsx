@@ -1,10 +1,18 @@
 import React from 'react'
-import { cleanup, render, type RenderResult } from '@testing-library/react'
+import { cleanup, fireEvent, render, type RenderResult } from '@testing-library/react'
 import { NewTransactionModal } from '.'
+import { faker } from '@faker-js/faker'
+import { ValidationStub } from '@/presentation/test'
 
-const makeSut = (): RenderResult => {
+type SutParams = {
+  validationError: string
+}
+
+const makeSut = (params?: SutParams): RenderResult => {
+  const validationStub = new ValidationStub()
+  validationStub.errorMessage = params?.validationError
   const sut = render(
-    <NewTransactionModal onClose={() => {}} />
+    <NewTransactionModal validation={validationStub} onClose={() => {}} />
   )
 
   return sut
@@ -31,9 +39,10 @@ describe('NewTransactionModal component', () => {
   afterEach(cleanup)
 
   it('Should be able to start with initial state', () => {
-    const sut = makeSut()
+    const validationError = faker.random.words()
+    const sut = makeSut({ validationError })
 
-    testStatusForField(sut, 'description', 'Campo obrigatório')
+    testStatusForField(sut, 'description', validationError)
     testStatusForField(sut, 'price', 'Campo obrigatório')
     testStatusForField(sut, 'category', 'Campo obrigatório')
 
@@ -42,5 +51,13 @@ describe('NewTransactionModal component', () => {
 
     const submitButton = sut.getByTestId('submit') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
+  })
+
+  it('Should be able to show descriptionError if validation fails', () => {
+    const validationError = faker.random.words()
+    const sut = makeSut({ validationError })
+    const description = sut.getByTestId('description')
+    fireEvent.input(description, { target: { value: faker.random.word() } })
+    testStatusForField(sut, 'description', validationError)
   })
 })
