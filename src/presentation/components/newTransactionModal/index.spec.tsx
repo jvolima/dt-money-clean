@@ -32,6 +32,16 @@ const populateField = (sut: RenderResult, fieldName: string, value = faker.rando
   fireEvent.input(field, { target: { value } })
 }
 
+const selectTransactionType = (sut: RenderResult, transactionType = faker.helpers.arrayElement(['income', 'outcome'])): void => {
+  const type = sut.getByTestId(transactionType)
+  fireEvent.click(type)
+}
+
+const testTransactionTypeStatus = (sut: RenderResult, validationError = ''): void => {
+  const type = sut.getByTestId('type')
+  expect(type.title).toBe(validationError)
+}
+
 describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -50,9 +60,7 @@ describe('NewTransactionModal component', () => {
     testStatusForField(sut, 'description', validationError)
     testStatusForField(sut, 'price', validationError)
     testStatusForField(sut, 'category', validationError)
-
-    const type = sut.getByTestId('type')
-    expect(type.title).toBe(validationError)
+    testTransactionTypeStatus(sut, validationError)
 
     const submitButton = sut.getByTestId('submit') as HTMLButtonElement
     expect(submitButton.disabled).toBe(true)
@@ -82,11 +90,8 @@ describe('NewTransactionModal component', () => {
   it('Should be able to show typeError if validation fails', () => {
     const validationError = faker.random.words()
     const sut = makeSut({ validationError })
-    const type = sut.getByTestId('type')
-    const income = sut.getByTestId('income')
-    const outcome = sut.getByTestId('outcome')
-    fireEvent.click(faker.helpers.arrayElement([income, outcome]))
-    expect(type.title).toBe(validationError)
+    selectTransactionType(sut)
+    testTransactionTypeStatus(sut, validationError)
   })
 
   it('Should be able to show valid description state if validation succeeds', () => {
@@ -109,10 +114,7 @@ describe('NewTransactionModal component', () => {
 
   it('Should be able to show valid type state if validation succeeds', () => {
     const sut = makeSut()
-    const type = sut.getByTestId('type')
-    const income = sut.getByTestId('income')
-    const outcome = sut.getByTestId('outcome')
-    fireEvent.click(faker.helpers.arrayElement([income, outcome]))
-    expect(type.title).toBe('')
+    selectTransactionType(sut)
+    testTransactionTypeStatus(sut)
   })
 })
