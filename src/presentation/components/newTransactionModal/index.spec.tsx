@@ -27,6 +27,11 @@ const testStatusForField = (sut: RenderResult, fieldName: string, error: string)
   expect(label.title).toBe(error)
 }
 
+const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
+  const field = sut.getByTestId(fieldName)
+  fireEvent.input(field, { target: { value } })
+}
+
 describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -56,24 +61,21 @@ describe('NewTransactionModal component', () => {
   it('Should be able to show descriptionError if validation fails', () => {
     const validationError = faker.random.words()
     const sut = makeSut({ validationError })
-    const description = sut.getByTestId('description')
-    fireEvent.input(description, { target: { value: faker.random.word() } })
+    populateField(sut, 'description')
     testStatusForField(sut, 'description', validationError)
   })
 
   it('Should be able to show priceError if validation fails', () => {
     const validationError = faker.random.words()
     const sut = makeSut({ validationError })
-    const price = sut.getByTestId('price')
-    fireEvent.input(price, { target: { value: faker.random.word() } })
+    populateField(sut, 'price')
     testStatusForField(sut, 'price', validationError)
   })
 
   it('Should be able to show categoryError if validation fails', () => {
     const validationError = faker.random.words()
     const sut = makeSut({ validationError })
-    const category = sut.getByTestId('category')
-    fireEvent.input(category, { target: { value: faker.random.word() } })
+    populateField(sut, 'category')
     testStatusForField(sut, 'category', validationError)
   })
 
