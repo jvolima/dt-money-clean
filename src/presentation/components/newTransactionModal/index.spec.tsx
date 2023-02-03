@@ -128,4 +128,16 @@ describe('NewTransactionModal component', () => {
     const button = sut.getByTestId('submit') as HTMLButtonElement
     expect(button.disabled).toBe(false)
   })
+
+  it('Should be able to show spinner on submit', () => {
+    const sut = makeSut()
+    populateField(sut, 'description')
+    populateField(sut, 'price')
+    populateField(sut, 'category')
+    selectTransactionType(sut)
+    const form = sut.getByTestId('form')
+    fireEvent.submit(form)
+    const spinner = sut.getByTestId('spinner')
+    expect(spinner).toBeTruthy()
+  })
 })
