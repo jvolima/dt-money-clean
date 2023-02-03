@@ -4,6 +4,7 @@ import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionType
 import { Input } from '../input'
 import { FormContext } from '@/presentation/contexts/form/form-context'
 import { type Validation } from '@/presentation/protols/validation'
+import { FormStatus } from '../form-status'
 
 type Props = {
   validation?: Validation
@@ -12,6 +13,7 @@ type Props = {
 
 export function NewTransactionModal ({ validation, onClose }: Props): JSX.Element {
   const [state, setState] = useState({
+    isLoading: false,
     isFormInvalid: true,
     description: '',
     descriptionError: '',
@@ -33,10 +35,10 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
       type
     }
 
-    const descriptionError = validation.validate('description', formData)
-    const priceError = validation.validate('price', formData)
-    const categoryError = validation.validate('category', formData)
-    const typeError = validation.validate('type', formData)
+    const descriptionError = validation?.validate('description', formData)
+    const priceError = validation?.validate('price', formData)
+    const categoryError = validation?.validate('category', formData)
+    const typeError = validation?.validate('type', formData)
 
     setState({
       ...state,
@@ -98,6 +100,7 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
               Cadastrar
             </button>
           </form>
+          <FormStatus />
         </FormContext.Provider>
       </Content>
     </div>
