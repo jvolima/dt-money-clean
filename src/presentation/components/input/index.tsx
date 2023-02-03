@@ -5,7 +5,7 @@ import { InputContainer } from './styles'
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 export function Input (props: Props): JSX.Element {
-  const { state } = useContext(FormContext)
+  const { state, setState } = useContext(FormContext)
   const error = state[`${props.name}Error`]
   const inputRef = useRef<HTMLInputElement>()
 
@@ -22,6 +22,9 @@ export function Input (props: Props): JSX.Element {
         placeholder=" "
         readOnly
         onFocus={e => { e.target.readOnly = false }}
+        onChange={e => {
+          setState({ ...state, [e.target.name]: e.target.value })
+        }}
       />
       <label
         data-testid={`${props.name}-label`}

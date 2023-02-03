@@ -5,23 +5,25 @@ import { Input } from '../input'
 import { FormContext } from '@/presentation/contexts/form/form-context'
 import { type Validation } from '@/presentation/protols/validation'
 import { FormStatus } from '../form-status'
+import { type AddTransaction } from '@/domain/usecases/add-transaction'
 
 type Props = {
   validation?: Validation
+  addTransaction?: AddTransaction
   onClose: () => void
 }
 
-export function NewTransactionModal ({ validation, onClose }: Props): JSX.Element {
+export function NewTransactionModal ({ validation, addTransaction, onClose }: Props): JSX.Element {
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
     description: '',
     descriptionError: '',
-    price: '',
+    price: null,
     priceError: '',
     category: '',
     categoryError: '',
-    type: '',
+    type: null,
     typeError: ''
   })
 
@@ -57,6 +59,13 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
       ...state,
       isLoading: true
     })
+
+    await addTransaction.add({
+      description: state.description,
+      price: Number(state.price),
+      category: state.category,
+      type: state.type
+    })
   }
 
   return (
@@ -70,7 +79,7 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
           <X size={24} />
         </CloseButton>
 
-        <FormContext.Provider value={{ state }}>
+        <FormContext.Provider value={{ state, setState }}>
           <form data-testid="form" onSubmit={handleSubmit}>
             <Inputs>
               <Input
@@ -94,12 +103,12 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
             </Inputs>
 
             <TransactionType title={state.typeError} data-testid="type">
-              <TransactionTypeButton data-testid="income" variant="income" value="income">
+              <TransactionTypeButton onClick={() => { setState({ ...state, type: 'income' }) }} data-testid="income" variant="income" value="income">
                 <ArrowCircleUp size={24} />
                 Entrada
               </TransactionTypeButton>
 
-              <TransactionTypeButton data-testid="outcome" variant="outcome" value="outcome">
+              <TransactionTypeButton onClick={() => { setState({ ...state, type: 'outcome' }) }} data-testid="outcome" variant="outcome" value="outcome">
                 <ArrowCircleDown size={24} />
                 Saída
               </TransactionTypeButton>
