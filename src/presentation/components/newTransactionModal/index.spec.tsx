@@ -117,4 +117,15 @@ describe('NewTransactionModal component', () => {
     selectTransactionType(sut)
     testTransactionTypeStatus(sut)
   })
+
+  it('Should be able to enable submit button if form is valid', () => {
+    const sut = makeSut()
+    populateField(sut, 'description')
+    populateField(sut, 'price')
+    populateField(sut, 'category')
+    selectTransactionType(sut)
+
+    const button = sut.getByTestId('submit') as HTMLButtonElement
+    expect(button.disabled).toBe(false)
+  })
 })
