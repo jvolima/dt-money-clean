@@ -12,6 +12,7 @@ type Props = {
 
 export function NewTransactionModal ({ validation, onClose }: Props): JSX.Element {
   const [state, setState] = useState({
+    isFormInvalid: true,
     description: '',
     descriptionError: '',
     price: '',
@@ -42,7 +43,8 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
       descriptionError,
       priceError,
       categoryError,
-      typeError
+      typeError,
+      isFormInvalid: !!descriptionError || !!priceError || !!categoryError || !!typeError
     })
   }, [state.description, state.price, state.category, state.type])
 
@@ -92,7 +94,7 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
               </TransactionTypeButton>
             </TransactionType>
 
-            <button data-testid="submit" disabled={true} type="submit">
+            <button data-testid="submit" disabled={state.isFormInvalid} type="submit">
               Cadastrar
             </button>
           </form>
