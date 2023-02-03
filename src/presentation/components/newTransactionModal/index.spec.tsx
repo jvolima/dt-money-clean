@@ -18,13 +18,13 @@ const makeSut = (params?: SutParams): RenderResult => {
   return sut
 }
 
-const testStatusForField = (sut: RenderResult, fieldName: string, error: string): void => {
+const testStatusForField = (sut: RenderResult, fieldName: string, validationError = ''): void => {
   const wrap = sut.getByTestId(`${fieldName}-wrap`)
   const field = sut.getByTestId(fieldName)
   const label = sut.getByTestId(`${fieldName}-label`)
-  expect(wrap.getAttribute('data-status')).toBe(error ? 'invalid' : 'valid')
-  expect(field.title).toBe(error)
-  expect(label.title).toBe(error)
+  expect(wrap.getAttribute('data-status')).toBe(validationError ? 'invalid' : 'valid')
+  expect(field.title).toBe(validationError)
+  expect(label.title).toBe(validationError)
 }
 
 const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
@@ -87,5 +87,11 @@ describe('NewTransactionModal component', () => {
     const outcome = sut.getByTestId('outcome')
     fireEvent.click(faker.helpers.arrayElement([income, outcome]))
     expect(type.title).toBe(validationError)
+  })
+
+  it('Should be able to show valid description state if validation succeeds', () => {
+    const sut = makeSut()
+    populateField(sut, 'description')
+    testStatusForField(sut, 'description')
   })
 })
