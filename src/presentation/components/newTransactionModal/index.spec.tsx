@@ -106,4 +106,13 @@ describe('NewTransactionModal component', () => {
     populateField(sut, 'category')
     testStatusForField(sut, 'category')
   })
+
+  it('Should be able to show valid type state if validation succeeds', () => {
+    const sut = makeSut()
+    const type = sut.getByTestId('type')
+    const income = sut.getByTestId('income')
+    const outcome = sut.getByTestId('outcome')
+    fireEvent.click(faker.helpers.arrayElement([income, outcome]))
+    expect(type.title).toBe('')
+  })
 })
