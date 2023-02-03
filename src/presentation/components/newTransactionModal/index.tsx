@@ -50,6 +50,15 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
     })
   }, [state.description, state.price, state.category, state.type])
 
+  async function handleSubmit (event: React.FormEvent<HTMLFormElement>): Promise<void> {
+    event.preventDefault()
+
+    setState({
+      ...state,
+      isLoading: true
+    })
+  }
+
   return (
     <div>
       <Overlay />
@@ -62,7 +71,7 @@ export function NewTransactionModal ({ validation, onClose }: Props): JSX.Elemen
         </CloseButton>
 
         <FormContext.Provider value={{ state }}>
-          <form>
+          <form data-testid="form" onSubmit={handleSubmit}>
             <Inputs>
               <Input
                 name="description"
