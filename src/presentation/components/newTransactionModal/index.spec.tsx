@@ -100,4 +100,10 @@ describe('NewTransactionModal component', () => {
     populateField(sut, 'price')
     testStatusForField(sut, 'price')
   })
+
+  it('Should be able to show valid category state if validation succeeds', () => {
+    const sut = makeSut()
+    populateField(sut, 'category')
+    testStatusForField(sut, 'category')
+  })
 })
