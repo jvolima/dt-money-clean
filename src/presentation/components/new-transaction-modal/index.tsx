@@ -55,7 +55,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
   async function handleSubmit (event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
 
-    if (state.isLoading) {
+    if (state.isLoading || state.isFormInvalid) {
       return
     }
 
