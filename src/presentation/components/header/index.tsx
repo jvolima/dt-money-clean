@@ -3,7 +3,7 @@ import React from 'react'
 import { HeaderContainer, HeaderContent, NewTransactionButton } from './styles'
 
 import logoImg from '../../assets/logo.svg'
-import { NewTransactionModal } from '../newTransactionModal'
+import { NewTransactionModal } from '../new-transaction-modal'
 
 export function Header (): JSX.Element {
   function handleOpenModal (): void {
