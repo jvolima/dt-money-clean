@@ -7,7 +7,7 @@ export function FormStatus (): JSX.Element {
   const { state: { isLoading } } = useContext(FormContext)
 
   return (
-    <FormStatusContainer>
+    <FormStatusContainer data-testid="form-status">
       { isLoading && <Spinner /> }
     </FormStatusContainer>
   )
