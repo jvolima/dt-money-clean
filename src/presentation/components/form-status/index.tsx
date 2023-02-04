@@ -4,11 +4,12 @@ import { Spinner } from '../spinner'
 import { FormStatusContainer } from './styles'
 
 export function FormStatus (): JSX.Element {
-  const { state: { isLoading } } = useContext(FormContext)
+  const { state: { isLoading, mainError } } = useContext(FormContext)
 
   return (
     <FormStatusContainer data-testid="form-status">
       { isLoading && <Spinner /> }
+      { mainError && <span data-testid="main-error">{mainError}</span> }
     </FormStatusContainer>
   )
 }

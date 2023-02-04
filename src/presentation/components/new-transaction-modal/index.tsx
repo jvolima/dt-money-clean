@@ -17,6 +17,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
+    mainError: '',
     description: '',
     descriptionError: '',
     price: null,
@@ -64,12 +65,20 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
       isLoading: true
     })
 
-    await addTransaction.add({
-      description: state.description,
-      price: Number(state.price),
-      category: state.category,
-      type: state.type
-    })
+    try {
+      await addTransaction.add({
+        description: state.description,
+        price: Number(state.price),
+        category: state.category,
+        type: state.type
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        mainError: error.message
+      })
+    }
   }
 
   return (

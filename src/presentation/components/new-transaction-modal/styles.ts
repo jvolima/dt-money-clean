@@ -4,13 +4,14 @@ import * as RadioGroup from '@radix-ui/react-radio-group'
 export const Overlay = styled.div`
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
 `
 
 export const Content = styled.div`
-  min-width: 32rem;
+  max-width: 32rem;
+  width: 100%;
   border-radius: 6px;
   padding: 2.5rem 3rem;
   background: ${(props) => props.theme['gray-800']};
