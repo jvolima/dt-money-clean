@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, fireEvent, render, type RenderResult } from '@testing-library/react'
+import { cleanup, fireEvent, render, waitFor, type RenderResult } from '@testing-library/react'
 import { NewTransactionModal } from '.'
 import { faker } from '@faker-js/faker'
 import { AddTransactionSpy, ValidationStub } from '@/presentation/test'
@@ -191,5 +191,18 @@ describe('NewTransactionModal component', () => {
     const { sut, addTransactionSpy } = makeSut({ validationError })
     simulateValidSubmit(sut)
     expect(addTransactionSpy.callsCount).toBe(0)
+  })
+
+  it('Should be able to present error if AddTransaction fails', async () => {
+    const { sut, addTransactionSpy } = makeSut()
+    const error = new Error(faker.random.words())
+    jest.spyOn(addTransactionSpy, 'add').mockRejectedValueOnce(error)
+    simulateValidSubmit(sut)
+    await waitFor(() => {
+      const formStatus = sut.getByTestId('form-status')
+      expect(formStatus.childElementCount).toBe(1)
+      const mainError = sut.getByTestId('main-error')
+      expect(mainError.textContent).toBe(error.message)
+    })
   })
 })
