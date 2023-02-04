@@ -185,4 +185,11 @@ describe('NewTransactionModal component', () => {
     simulateValidSubmit(sut)
     expect(addTransactionSpy.callsCount).toBe(1)
   })
+
+  it('Should not be able to call AddTransaction if form is invalid', () => {
+    const validationError = faker.random.words()
+    const { sut, addTransactionSpy } = makeSut({ validationError })
+    simulateValidSubmit(sut)
+    expect(addTransactionSpy.callsCount).toBe(0)
+  })
 })
