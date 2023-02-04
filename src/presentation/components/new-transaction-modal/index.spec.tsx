@@ -178,4 +178,11 @@ describe('NewTransactionModal component', () => {
     simulateValidSubmit(sut, description, price, category, type)
     expect(addTransactionSpy.params).toEqual({ description, price, category, type })
   })
+
+  it('Should be able to call AddTransaction only once', () => {
+    const { sut, addTransactionSpy } = makeSut()
+    simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
+    expect(addTransactionSpy.callsCount).toBe(1)
+  })
 })
