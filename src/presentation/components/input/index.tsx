@@ -22,6 +22,7 @@ export function Input (props: Props): JSX.Element {
         placeholder=" "
         readOnly
         onFocus={e => { e.target.readOnly = false }}
+        value={state[props.name]}
         onChange={e => {
           setState({ ...state, [e.target.name]: e.target.value })
         }}

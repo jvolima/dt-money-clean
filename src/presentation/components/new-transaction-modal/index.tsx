@@ -20,7 +20,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
     mainError: '',
     description: '',
     descriptionError: '',
-    price: null,
+    price: '',
     priceError: '',
     category: '',
     categoryError: '',
@@ -53,6 +53,17 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
     })
   }, [state.description, state.price, state.category, state.type])
 
+  function resetForm (): void {
+    setState({
+      ...state,
+      isLoading: false,
+      description: '',
+      category: '',
+      price: '',
+      type: null
+    })
+  }
+
   async function handleSubmit (event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
 
@@ -72,6 +83,8 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
         category: state.category,
         type: state.type
       })
+
+      resetForm()
     } catch (error) {
       setState({
         ...state,
@@ -115,7 +128,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
               />
             </Inputs>
 
-            <TransactionType title={state.typeError} data-testid="type">
+            <TransactionType title={state.typeError} value={state.type} data-testid="type">
               <TransactionTypeButton onClick={() => { setState({ ...state, type: 'income' }) }} data-testid="income" variant="income" value="income">
                 <ArrowCircleUp size={24} />
                 Entrada

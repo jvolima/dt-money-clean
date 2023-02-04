@@ -162,28 +162,34 @@ describe('NewTransactionModal component', () => {
     testButtonIsDisabled(sut, false)
   })
 
-  it('Should be able to show spinner on submit', () => {
+  it('Should be able to show spinner on submit', async () => {
     const { sut } = makeSut()
     simulateValidSubmit(sut)
-    const spinner = sut.getByTestId('spinner')
-    expect(spinner).toBeTruthy()
+    await waitFor(() => {
+      const spinner = sut.getByTestId('spinner')
+      expect(spinner).toBeTruthy()
+    })
   })
 
-  it('Should be able to call AddTransaction with correct values', () => {
+  it('Should be able to call AddTransaction with correct values', async () => {
     const { sut, addTransactionSpy } = makeSut()
     const description = faker.random.words()
     const price = faker.datatype.number()
     const category = faker.random.word()
     const type = faker.helpers.arrayElement(['income', 'outcome'])
     simulateValidSubmit(sut, description, price, category, type)
-    expect(addTransactionSpy.params).toEqual({ description, price, category, type })
+    await waitFor(() => {
+      expect(addTransactionSpy.params).toEqual({ description, price, category, type })
+    })
   })
 
-  it('Should be able to call AddTransaction only once', () => {
+  it('Should be able to call AddTransaction only once', async () => {
     const { sut, addTransactionSpy } = makeSut()
     simulateValidSubmit(sut)
     simulateValidSubmit(sut)
-    expect(addTransactionSpy.callsCount).toBe(1)
+    await waitFor(() => {
+      expect(addTransactionSpy.callsCount).toBe(1)
+    })
   })
 
   it('Should not be able to call AddTransaction if form is invalid', () => {
