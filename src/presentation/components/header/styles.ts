@@ -14,6 +14,11 @@ export const HeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 `
 
 export const NewTransactionButton = styled.button`

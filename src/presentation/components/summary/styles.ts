@@ -6,8 +6,10 @@ export const SummaryContainer = styled.section`
   margin: 0 auto;
   padding: 0 1.5rem;
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 2rem;
 
   margin-top: -5rem;
@@ -18,6 +20,9 @@ interface SummaryCardProps {
 }
 
 export const SummaryCard = styled.div<SummaryCardProps>`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
   background: ${(props) => props.theme['gray-600']};
   border-radius: 6px;
   padding: 2rem;
