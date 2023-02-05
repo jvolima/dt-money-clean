@@ -101,7 +101,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
       <Content>
         <h1>Nova transação</h1>
 
-        <CloseButton onClick={onClose}>
+        <CloseButton data-testid="close-modal-button" onClick={onClose}>
           <X size={24} />
         </CloseButton>
 
