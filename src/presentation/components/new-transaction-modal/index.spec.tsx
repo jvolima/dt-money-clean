@@ -11,19 +11,22 @@ type SutParams = {
 type SutTypes = {
   sut: RenderResult
   addTransactionSpy: AddTransactionSpy
+  onClose: () => void
 }
 
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addTransactionSpy = new AddTransactionSpy()
   validationStub.errorMessage = params?.validationError
+  const onClose = jest.fn()
   const sut = render(
-    <NewTransactionModal validation={validationStub} addTransaction={addTransactionSpy} onClose={() => {}} />
+    <NewTransactionModal validation={validationStub} addTransaction={addTransactionSpy} onClose={onClose} />
   )
 
   return {
     sut,
-    addTransactionSpy
+    addTransactionSpy,
+    onClose
   }
 }
 
@@ -225,5 +228,12 @@ describe('NewTransactionModal component', () => {
       const type = sut.getByTestId('type')
       expect(type.getAttribute('value')).toBe(null)
     })
+  })
+
+  it('Should be able to close modal using X button', () => {
+    const { sut, onClose } = makeSut()
+    const closeModalButton = sut.getByTestId('close-modal-button')
+    fireEvent.click(closeModalButton)
+    expect(onClose).toHaveBeenCalled()
   })
 })
