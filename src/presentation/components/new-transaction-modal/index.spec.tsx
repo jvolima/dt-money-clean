@@ -211,4 +211,19 @@ describe('NewTransactionModal component', () => {
       expect(mainError.textContent).toBe(error.message)
     })
   })
+
+  it('Should be able to clear fields on success', async () => {
+    const { sut } = makeSut()
+    simulateValidSubmit(sut)
+    await waitFor(() => {
+      const description = sut.getByTestId('description')
+      expect(description.textContent).toBe('')
+      const price = sut.getByTestId('price')
+      expect(price.textContent).toBe('')
+      const category = sut.getByTestId('category')
+      expect(category.textContent).toBe('')
+      const type = sut.getByTestId('type')
+      expect(type.getAttribute('value')).toBe(null)
+    })
+  })
 })
