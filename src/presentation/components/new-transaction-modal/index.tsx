@@ -96,7 +96,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
 
   return (
     <div>
-      <Overlay />
+      <Overlay onClick={onClose} data-testid="overlay" />
 
       <Content>
         <h1>Nova transação</h1>
