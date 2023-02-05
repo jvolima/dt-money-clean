@@ -90,6 +90,16 @@ const testElementCallsFunction = (sut: RenderResult, elementName: string, functi
   expect(functionToTest).toHaveBeenCalled()
 }
 
+const testElementContent = (sut: RenderResult, fieldName: string, content: string): void => {
+  const field = sut.getByTestId(fieldName)
+  expect(field.textContent).toBe(content)
+}
+
+const testChildCount = (sut: RenderResult, fieldName: string, count: number): void => {
+  const element = sut.getByTestId(fieldName)
+  expect(element.childElementCount).toBe(count)
+}
+
 describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -109,8 +119,7 @@ describe('NewTransactionModal component', () => {
     testStatusForField(sut, 'category', validationError)
     testTransactionTypeStatus(sut, validationError)
     testButtonIsDisabled(sut, true)
-    const formStatus = sut.getByTestId('form-status')
-    expect(formStatus.childElementCount).toBe(0)
+    testChildCount(sut, 'form-status', 0)
   })
 
   it('Should be able to show descriptionError if validation fails', () => {
@@ -214,10 +223,8 @@ describe('NewTransactionModal component', () => {
     jest.spyOn(addTransactionSpy, 'add').mockRejectedValueOnce(error)
     simulateValidSubmit(sut)
     await waitFor(() => {
-      const formStatus = sut.getByTestId('form-status')
-      expect(formStatus.childElementCount).toBe(1)
-      const mainError = sut.getByTestId('main-error')
-      expect(mainError.textContent).toBe(error.message)
+      testChildCount(sut, 'form-status', 1)
+      testElementContent(sut, 'main-error', error.message)
     })
   })
 
@@ -225,12 +232,9 @@ describe('NewTransactionModal component', () => {
     const { sut } = makeSut()
     simulateValidSubmit(sut)
     await waitFor(() => {
-      const description = sut.getByTestId('description')
-      expect(description.textContent).toBe('')
-      const price = sut.getByTestId('price')
-      expect(price.textContent).toBe('')
-      const category = sut.getByTestId('category')
-      expect(category.textContent).toBe('')
+      testElementContent(sut, 'description', '')
+      testElementContent(sut, 'price', '')
+      testElementContent(sut, 'category', '')
       const type = sut.getByTestId('type')
       expect(type.getAttribute('value')).toBe(null)
     })
