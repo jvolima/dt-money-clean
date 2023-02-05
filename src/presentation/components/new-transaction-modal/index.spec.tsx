@@ -84,6 +84,12 @@ const simulateValidSubmit = (
   fireEvent.submit(form)
 }
 
+const testElementCallsFunction = (sut: RenderResult, elementName: string, functionToTest: jest.Func): void => {
+  const element = sut.getByTestId(elementName)
+  fireEvent.click(element)
+  expect(functionToTest).toHaveBeenCalled()
+}
+
 describe('NewTransactionModal component', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -232,15 +238,11 @@ describe('NewTransactionModal component', () => {
 
   it('Should be able to close modal using X button', () => {
     const { sut, onClose } = makeSut()
-    const closeModalButton = sut.getByTestId('close-modal-button')
-    fireEvent.click(closeModalButton)
-    expect(onClose).toHaveBeenCalled()
+    testElementCallsFunction(sut, 'close-modal-button', onClose)
   })
 
   it('Should be able to close modal when click on overlay', () => {
     const { sut, onClose } = makeSut()
-    const overlay = sut.getByTestId('overlay')
-    fireEvent.click(overlay)
-    expect(onClose).toHaveBeenCalled()
+    testElementCallsFunction(sut, 'overlay', onClose)
   })
 })
