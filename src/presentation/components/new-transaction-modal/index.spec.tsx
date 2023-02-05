@@ -236,4 +236,11 @@ describe('NewTransactionModal component', () => {
     fireEvent.click(closeModalButton)
     expect(onClose).toHaveBeenCalled()
   })
+
+  it('Should be able to close modal when click on overlay', () => {
+    const { sut, onClose } = makeSut()
+    const overlay = sut.getByTestId('overlay')
+    fireEvent.click(overlay)
+    expect(onClose).toHaveBeenCalled()
+  })
 })
