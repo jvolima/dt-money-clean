@@ -12,19 +12,15 @@ describe('Header component', () => {
       disconnect: jest.fn()
     }))
 
-    HTMLDialogElement.prototype.show = jest.fn()
     HTMLDialogElement.prototype.showModal = jest.fn()
-    HTMLDialogElement.prototype.close = jest.fn()
   })
 
   it('Should be able to open modal when click on new transaction button', () => {
     const sut = render(
       <Header />
     )
-
     const newTransactionButton = sut.getByTestId('new-transaction-button')
     fireEvent.click(newTransactionButton)
-
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled()
   })
 })
