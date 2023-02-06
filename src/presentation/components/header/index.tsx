@@ -21,11 +21,11 @@ export function Header (): JSX.Element {
       <HeaderContent>
         <img src={logoImg} alt="" />
 
-        <NewTransactionButton onClick={handleOpenModal}>
+        <NewTransactionButton data-testid="new-transaction-button" onClick={handleOpenModal}>
           Nova transação
         </NewTransactionButton>
 
-        <dialog id="modal">
+        <dialog data-testid="modal" id="modal">
           <NewTransactionModal onClose={handleCloseModal} />
         </dialog>
       </HeaderContent>
