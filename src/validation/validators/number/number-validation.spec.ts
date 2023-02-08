@@ -9,4 +9,11 @@ describe('NumberValidation', () => {
     const error = sut.validate({ [field]: faker.random.word() })
     expect(error).toEqual(new InvalidFieldError())
   })
+
+  it('Should be able to return falsy if value is a number', () => {
+    const field = faker.database.column()
+    const sut = new NumberValidation(field)
+    const error = sut.validate({ [field]: faker.datatype.number() })
+    expect(error).toBeFalsy()
+  })
 })
