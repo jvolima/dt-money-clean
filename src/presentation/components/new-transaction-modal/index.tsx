@@ -3,7 +3,7 @@ import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionTypeButton } from './styles'
 import { Input } from '../input'
 import { FormContext } from '@/presentation/contexts/form/form-context'
-import { type Validation } from '@/presentation/protols/validation'
+import { type Validation } from '@/presentation/protocols/validation'
 import { FormStatus } from '../form-status'
 import { type AddTransaction } from '@/domain/usecases/add-transaction'
 

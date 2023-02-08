@@ -1,4 +1,4 @@
-import { type Validation } from '../protols/validation'
+import { type Validation } from '../protocols/validation'
 
 export class ValidationStub implements Validation {
   errorMessage: string
