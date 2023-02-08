@@ -5,6 +5,9 @@ export class NumberValidation implements FieldValidation {
   constructor (readonly field: string) {}
 
   validate (input: object): Error {
-    return new InvalidFieldError()
+    if (Number.isNaN(input[this.field]) || typeof input[this.field] !== 'number') {
+      return new InvalidFieldError()
+    }
+    return null
   }
 }
