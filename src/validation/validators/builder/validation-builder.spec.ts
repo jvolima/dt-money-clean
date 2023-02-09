@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { MinLengthValidation } from '../min-length/min-length-validation'
-import { RequiredFieldValidation } from '../required-field/required-field-validation'
+import { MinLengthValidation, NumberValidation, RequiredFieldValidation } from '@/validation/validators'
 import { ValidationBuilder as sut } from './validation-builder'
 
 describe('ValidationBuilder', () => {
@@ -14,5 +13,11 @@ describe('ValidationBuilder', () => {
     const field = faker.database.column()
     const validations = sut.field(field).min(5).build()
     expect(validations).toEqual([new MinLengthValidation(field, 5)])
+  })
+
+  it('Should be able to return NumberValidation', () => {
+    const field = faker.database.column()
+    const validations = sut.field(field).number().build()
+    expect(validations).toEqual([new NumberValidation(field)])
   })
 })
