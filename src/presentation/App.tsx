@@ -1,14 +1,16 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import Transactions from './pages/transactions'
 import { GlobalStyle } from './styles/global'
 import { defaultTheme } from './styles/themes/default'
 
-export default function App (): JSX.Element {
+type Props = {
+  makeTransactions: () => JSX.Element
+}
+
+export default function App ({ makeTransactions: MakeTransactions }: Props): JSX.Element {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Transactions />
-
+      <MakeTransactions />
       <GlobalStyle />
     </ThemeProvider>
   )

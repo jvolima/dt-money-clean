@@ -33,7 +33,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
 
     const formData = {
       description,
-      price,
+      price: Number(price),
       category,
       type
     }
