@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, fireEvent, render, waitFor, type RenderResult } from '@testing-library/react'
+import { cleanup, fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { NewTransactionModal } from '.'
 import { faker } from '@faker-js/faker'
 import { AddTransactionSpy, ValidationStub } from '@/presentation/test'
@@ -9,7 +9,6 @@ type SutParams = {
 }
 
 type SutTypes = {
-  sut: RenderResult
   addTransactionSpy: AddTransactionSpy
   onClose: () => void
 }
@@ -19,85 +18,67 @@ const makeSut = (params?: SutParams): SutTypes => {
   const addTransactionSpy = new AddTransactionSpy()
   validationStub.errorMessage = params?.validationError
   const onClose = jest.fn()
-  const sut = render(
+  render(
     <NewTransactionModal validation={validationStub} addTransaction={addTransactionSpy} onClose={onClose} />
   )
 
   return {
-    sut,
     addTransactionSpy,
     onClose
   }
 }
 
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError = ''): void => {
-  const wrap = sut.getByTestId(`${fieldName}-wrap`)
-  const field = sut.getByTestId(fieldName)
-  const label = sut.getByTestId(`${fieldName}-label`)
-  expect(wrap.getAttribute('data-status')).toBe(validationError ? 'invalid' : 'valid')
-  expect(field.title).toBe(validationError)
-  expect(label.title).toBe(validationError)
+const testStatusForField = (fieldName: string, validationError = ''): void => {
+  const wrap = screen.getByTestId(`${fieldName}-wrap`)
+  const field = screen.getByTestId(fieldName)
+  const label = screen.getByTestId(`${fieldName}-label`)
+  expect(wrap).toHaveAttribute('data-status', validationError ? 'invalid' : 'valid')
+  expect(field).toHaveProperty('title', validationError)
+  expect(label).toHaveProperty('title', validationError)
 }
 
-const populateField = (sut: RenderResult, fieldName: string, value: string | number = faker.random.word()): void => {
-  const field = sut.getByTestId(fieldName)
+const populateField = (fieldName: string, value: string | number = faker.random.word()): void => {
+  const field = screen.getByTestId(fieldName)
   fireEvent.input(field, { target: { value } })
 }
 
-const selectTransactionType = (sut: RenderResult, transactionType = faker.helpers.arrayElement(['income', 'outcome'])): void => {
-  const type = sut.getByTestId(transactionType)
+const selectTransactionType = (transactionType = faker.helpers.arrayElement(['income', 'outcome'])): void => {
+  const type = screen.getByTestId(transactionType)
   fireEvent.click(type)
 }
 
-const testTransactionTypeStatus = (sut: RenderResult, validationError = ''): void => {
-  const type = sut.getByTestId('type')
-  expect(type.title).toBe(validationError)
-}
-
-const testButtonIsDisabled = (sut: RenderResult, disabled: boolean): void => {
-  const submitButton = sut.getByTestId('submit') as HTMLButtonElement
-  expect(submitButton.disabled).toBe(disabled)
+const testTransactionTypeStatus = (validationError = ''): void => {
+  const type = screen.getByTestId('type')
+  expect(type).toHaveProperty('title', validationError)
 }
 
 const fillOutForm = (
-  sut: RenderResult,
   description = faker.random.words(),
   price = faker.datatype.number(),
   category = faker.random.word(),
   type = faker.helpers.arrayElement(['income', 'outcome'])
 ): void => {
-  populateField(sut, 'description', description)
-  populateField(sut, 'price', price)
-  populateField(sut, 'category', category)
-  selectTransactionType(sut, type)
+  populateField('description', description)
+  populateField('price', price)
+  populateField('category', category)
+  selectTransactionType(type)
 }
 
 const simulateValidSubmit = (
-  sut: RenderResult,
   description = faker.random.words(),
   price = faker.datatype.number(),
   category = faker.random.word(),
   type = faker.helpers.arrayElement(['income', 'outcome'])
 ): void => {
-  fillOutForm(sut, description, price, category, type)
-  const form = sut.getByTestId('form')
+  fillOutForm(description, price, category, type)
+  const form = screen.getByTestId('form')
   fireEvent.submit(form)
 }
 
-const testElementCallsFunction = (sut: RenderResult, elementName: string, functionToTest: jest.Func): void => {
-  const element = sut.getByTestId(elementName)
+const testElementCallsFunction = (elementName: string, functionToTest: jest.Func): void => {
+  const element = screen.getByTestId(elementName)
   fireEvent.click(element)
   expect(functionToTest).toHaveBeenCalled()
-}
-
-const testElementContent = (sut: RenderResult, fieldName: string, content: string): void => {
-  const field = sut.getByTestId(fieldName)
-  expect(field.textContent).toBe(content)
-}
-
-const testChildCount = (sut: RenderResult, fieldName: string, count: number): void => {
-  const element = sut.getByTestId(fieldName)
-  expect(element.childElementCount).toBe(count)
 }
 
 describe('NewTransactionModal component', () => {
@@ -113,98 +94,93 @@ describe('NewTransactionModal component', () => {
 
   it('Should be able to start with initial state', () => {
     const validationError = faker.random.words()
-    const { sut } = makeSut({ validationError })
-    testStatusForField(sut, 'description', validationError)
-    testStatusForField(sut, 'price', validationError)
-    testStatusForField(sut, 'category', validationError)
-    testTransactionTypeStatus(sut, validationError)
-    testButtonIsDisabled(sut, true)
-    testChildCount(sut, 'form-status', 0)
+    makeSut({ validationError })
+    testStatusForField('description', validationError)
+    testStatusForField('price', validationError)
+    testStatusForField('category', validationError)
+    testTransactionTypeStatus(validationError)
+    expect(screen.getByTestId('submit')).toBeDisabled()
+    expect(screen.getByTestId('form-status').children).toHaveLength(0)
   })
 
   it('Should be able to show descriptionError if validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = makeSut({ validationError })
-    populateField(sut, 'description')
-    testStatusForField(sut, 'description', validationError)
+    makeSut({ validationError })
+    populateField('description')
+    testStatusForField('description', validationError)
   })
 
   it('Should be able to show priceError if validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = makeSut({ validationError })
-    populateField(sut, 'price')
-    testStatusForField(sut, 'price', validationError)
+    makeSut({ validationError })
+    populateField('price')
+    testStatusForField('price', validationError)
   })
 
   it('Should be able to show categoryError if validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = makeSut({ validationError })
-    populateField(sut, 'category')
-    testStatusForField(sut, 'category', validationError)
+    makeSut({ validationError })
+    populateField('category')
+    testStatusForField('category', validationError)
   })
 
   it('Should be able to show typeError if validation fails', () => {
     const validationError = faker.random.words()
-    const { sut } = makeSut({ validationError })
-    selectTransactionType(sut)
-    testTransactionTypeStatus(sut, validationError)
+    makeSut({ validationError })
+    selectTransactionType()
+    testTransactionTypeStatus(validationError)
   })
 
   it('Should be able to show valid description state if validation succeeds', () => {
-    const { sut } = makeSut()
-    populateField(sut, 'description')
-    testStatusForField(sut, 'description')
+    makeSut()
+    populateField('description')
+    testStatusForField('description')
   })
 
   it('Should be able to show valid price state if validation succeeds', () => {
-    const { sut } = makeSut()
-    populateField(sut, 'price')
-    testStatusForField(sut, 'price')
+    makeSut()
+    populateField('price')
+    testStatusForField('price')
   })
 
   it('Should be able to show valid category state if validation succeeds', () => {
-    const { sut } = makeSut()
-    populateField(sut, 'category')
-    testStatusForField(sut, 'category')
+    makeSut()
+    populateField('category')
+    testStatusForField('category')
   })
 
   it('Should be able to show valid type state if validation succeeds', () => {
-    const { sut } = makeSut()
-    selectTransactionType(sut)
-    testTransactionTypeStatus(sut)
+    makeSut()
+    selectTransactionType()
+    testTransactionTypeStatus()
   })
 
   it('Should be able to enable submit button if form is valid', () => {
-    const { sut } = makeSut()
-    fillOutForm(sut)
-    testButtonIsDisabled(sut, false)
+    makeSut()
+    fillOutForm()
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   it('Should be able to show spinner on submit', async () => {
-    const { sut } = makeSut()
-    simulateValidSubmit(sut)
-    await waitFor(() => {
-      const spinner = sut.getByTestId('spinner')
-      expect(spinner).toBeTruthy()
-    })
+    makeSut()
+    simulateValidSubmit()
+    await waitFor(() => { expect(screen.queryByTestId('spinner')).toBeInTheDocument() })
   })
 
   it('Should be able to call AddTransaction with correct values', async () => {
-    const { sut, addTransactionSpy } = makeSut()
+    const { addTransactionSpy } = makeSut()
     const description = faker.random.words()
     const price = faker.datatype.number()
     const category = faker.random.word()
     const type = faker.helpers.arrayElement(['income', 'outcome'])
-    simulateValidSubmit(sut, description, price, category, type)
-    await waitFor(() => {
-      expect(addTransactionSpy.params).toEqual({ description, price, category, type })
-    })
+    simulateValidSubmit(description, price, category, type)
+    await waitFor(() => { expect(addTransactionSpy.params).toEqual({ description, price, category, type }) })
   })
 
   it('Should be able to call AddTransaction only once', async () => {
-    const { sut, addTransactionSpy } = makeSut()
-    simulateValidSubmit(sut)
-    simulateValidSubmit(sut)
+    const { addTransactionSpy } = makeSut()
+    simulateValidSubmit()
+    simulateValidSubmit()
     await waitFor(() => {
       expect(addTransactionSpy.callsCount).toBe(1)
     })
@@ -212,41 +188,41 @@ describe('NewTransactionModal component', () => {
 
   it('Should not be able to call AddTransaction if form is invalid', () => {
     const validationError = faker.random.words()
-    const { sut, addTransactionSpy } = makeSut({ validationError })
-    simulateValidSubmit(sut)
+    const { addTransactionSpy } = makeSut({ validationError })
+    simulateValidSubmit()
     expect(addTransactionSpy.callsCount).toBe(0)
   })
 
   it('Should be able to present error if AddTransaction fails', async () => {
-    const { sut, addTransactionSpy } = makeSut()
+    const { addTransactionSpy } = makeSut()
     const error = new Error(faker.random.words())
     jest.spyOn(addTransactionSpy, 'add').mockRejectedValueOnce(error)
-    simulateValidSubmit(sut)
+    simulateValidSubmit()
     await waitFor(() => {
-      testChildCount(sut, 'form-status', 1)
-      testElementContent(sut, 'main-error', error.message)
+      expect(screen.getByTestId('form-status').children).toHaveLength(1)
+      expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
     })
   })
 
   it('Should be able to clear fields on success', async () => {
-    const { sut } = makeSut()
-    simulateValidSubmit(sut)
+    makeSut()
+    simulateValidSubmit()
     await waitFor(() => {
-      testElementContent(sut, 'description', '')
-      testElementContent(sut, 'price', '')
-      testElementContent(sut, 'category', '')
-      const type = sut.getByTestId('type')
+      expect(screen.getByTestId('description')).toHaveTextContent('')
+      expect(screen.getByTestId('price')).toHaveTextContent('')
+      expect(screen.getByTestId('category')).toHaveTextContent('')
+      const type = screen.getByTestId('type')
       expect(type.getAttribute('value')).toBe(null)
     })
   })
 
   it('Should be able to close modal using X button', () => {
-    const { sut, onClose } = makeSut()
-    testElementCallsFunction(sut, 'close-modal-button', onClose)
+    const { onClose } = makeSut()
+    testElementCallsFunction('close-modal-button', onClose)
   })
 
   it('Should be able to close modal when click on overlay', () => {
-    const { sut, onClose } = makeSut()
-    testElementCallsFunction(sut, 'overlay', onClose)
+    const { onClose } = makeSut()
+    testElementCallsFunction('overlay', onClose)
   })
 })

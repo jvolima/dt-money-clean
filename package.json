@@ -17,6 +17,7 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@radix-ui/react-radio-group": "^1.1.1",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.4.0",
     "@types/react": "^18.0.27",
