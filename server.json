@@ -1,0 +1,74 @@
+{
+  "transactions": [
+    {
+      "description": "Desenvolvimento de site",
+      "category": "Venda",
+      "price": 14000,
+      "type": "income",
+      "id": 1
+    },
+    {
+      "description": "Hamburger",
+      "category": "Alimentação",
+      "price": 60,
+      "type": "outcome",
+      "id": 2
+    },
+    {
+      "description": "Ignite Rocketseat",
+      "category": "Educação",
+      "price": 1980,
+      "type": "outcome",
+      "id": 3
+    },
+    {
+      "description": "Desenvolvimento de app",
+      "category": "Venda",
+      "price": 10000,
+      "type": "income",
+      "id": 4
+    },
+    {
+      "description": "Pastel",
+      "category": "Alimentação",
+      "price": 5,
+      "type": "outcome",
+      "id": 5
+    },
+    {
+      "description": "Iogurte de Banana",
+      "category": "Alimentação",
+      "price": 4,
+      "type": "outcome",
+      "id": 6
+    },
+    {
+      "description": "Pizza quatro queijos",
+      "price": 50,
+      "category": "Alimentação",
+      "type": "outcome",
+      "id": 7
+    },
+    {
+      "description": "Mouse gamer",
+      "price": 140,
+      "category": "Eletrônicos",
+      "type": "outcome",
+      "id": 8
+    },
+    {
+      "description": "Camiseta São Paulo",
+      "price": 120,
+      "category": "Roupa",
+      "type": "outcome",
+      "id": 9
+    },
+    {
+      "description": "Luna Bus",
+      "price": 4000,
+      "category": "Desenvolvimento de sites",
+      "type": "income",
+      "id": 10
+    }
+  ]
+}

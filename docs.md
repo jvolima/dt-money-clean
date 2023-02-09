@@ -13,3 +13,6 @@
 - Description: campo obrigatório e mínimo de caracteres igual a 5
 - Price: campo obrigatório e deve ser um número
 - Categoria: campo obrigatório e mínimo de caracteres igual a 3
+
+## Milhas extra
+- [] Toast após cadastrar transação
