@@ -69,6 +69,20 @@
       "category": "Desenvolvimento de sites",
       "type": "income",
       "id": 10
+    },
+    {
+      "description": "Açai 500 ml",
+      "price": 20,
+      "category": "Alimentação",
+      "type": "outcome",
+      "id": 11
+    },
+    {
+      "description": "Pede aí",
+      "price": 2000,
+      "category": "Desenvolvimento de sites",
+      "type": "income",
+      "id": 12
     }
   ]
 }

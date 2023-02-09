@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
+import { toast, ToastContainer } from 'react-toastify'
 import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionTypeButton } from './styles'
 import { Input } from '../input'
 import { FormContext } from '@/presentation/contexts/form/form-context'
@@ -84,6 +85,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
         type: state.type
       })
 
+      toast.success('Transação cadastrada.')
       resetForm()
     } catch (error) {
       setState({
@@ -97,6 +99,13 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
   return (
     <div>
       <Overlay onClick={onClose} data-testid="overlay" />
+
+      <ToastContainer
+        theme="colored"
+        toastClassName="errorAlert"
+        autoClose={2000}
+        pauseOnHover={false}
+      />
 
       <Content>
         <h1>Nova transação</h1>

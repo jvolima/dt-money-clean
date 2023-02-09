@@ -15,4 +15,5 @@
 - Categoria: campo obrigatório e mínimo de caracteres igual a 3
 
 ## Milhas extra
-- [] Toast após cadastrar transação
+- [x] Toast após cadastrar transação
+- [] Campo createdAt
