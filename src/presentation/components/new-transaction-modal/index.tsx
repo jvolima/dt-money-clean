@@ -8,8 +8,8 @@ import { FormStatus } from '../form-status'
 import { type AddTransaction } from '@/domain/usecases/add-transaction'
 
 type Props = {
-  validation?: Validation
-  addTransaction?: AddTransaction
+  validation: Validation
+  addTransaction: AddTransaction
   onClose: () => void
 }
 

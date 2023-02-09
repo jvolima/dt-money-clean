@@ -1,21 +1,12 @@
 import React from 'react'
-
 import { HeaderContainer, HeaderContent, NewTransactionButton } from './styles'
-
 import logoImg from '../../assets/logo.svg'
-import { NewTransactionModal } from '../new-transaction-modal'
 
-export function Header (): JSX.Element {
-  function handleOpenModal (): void {
-    const dialog = document.getElementById('modal') as HTMLDialogElement
-    dialog.showModal()
-  }
+type Props = {
+  handleOpenModal: () => void
+}
 
-  function handleCloseModal (): void {
-    const dialog = document.getElementById('modal') as HTMLDialogElement
-    dialog.close()
-  }
-
+export function Header ({ handleOpenModal }: Props): JSX.Element {
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -24,10 +15,6 @@ export function Header (): JSX.Element {
         <NewTransactionButton data-testid="new-transaction-button" onClick={handleOpenModal}>
           Nova transação
         </NewTransactionButton>
-
-        <dialog data-testid="modal" id="modal">
-          <NewTransactionModal onClose={handleCloseModal} />
-        </dialog>
       </HeaderContent>
     </HeaderContainer>
   )
