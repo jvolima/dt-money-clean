@@ -5,6 +5,7 @@
       "category": "Venda",
       "price": 14000,
       "type": "income",
+      "createdAt": "2022-08-13T14:56:12.601Z",
       "id": 1
     },
     {
@@ -12,6 +13,7 @@
       "category": "Alimentação",
       "price": 60,
       "type": "outcome",
+      "createdAt": "2022-08-13T14:57:12.601Z",
       "id": 2
     },
     {
@@ -19,6 +21,7 @@
       "category": "Educação",
       "price": 1980,
       "type": "outcome",
+      "createdAt": "2022-08-13T15:21:12.601Z",
       "id": 3
     },
     {
@@ -26,6 +29,7 @@
       "category": "Venda",
       "price": 10000,
       "type": "income",
+      "createdAt": "2022-08-14T14:30:04.701Z",
       "id": 4
     },
     {
@@ -33,6 +37,7 @@
       "category": "Alimentação",
       "price": 5,
       "type": "outcome",
+      "createdAt": "2022-08-14T14:34:51.740Z",
       "id": 5
     },
     {
@@ -40,49 +45,24 @@
       "category": "Alimentação",
       "price": 4,
       "type": "outcome",
+      "createdAt": "2022-08-14T14:43:41.749Z",
       "id": 6
     },
     {
-      "description": "Pizza quatro queijos",
+      "description": "Pizza de quatro queijos",
       "price": 50,
       "category": "Alimentação",
       "type": "outcome",
+      "createdAt": "2023-02-10T13:12:02.273Z",
       "id": 7
     },
     {
-      "description": "Mouse gamer",
-      "price": 140,
-      "category": "Eletrônicos",
-      "type": "outcome",
-      "id": 8
-    },
-    {
-      "description": "Camiseta São Paulo",
-      "price": 120,
-      "category": "Roupa",
-      "type": "outcome",
-      "id": 9
-    },
-    {
       "description": "Luna Bus",
-      "price": 4000,
-      "category": "Desenvolvimento de sites",
-      "type": "income",
-      "id": 10
-    },
-    {
-      "description": "Açai 500 ml",
-      "price": 20,
-      "category": "Alimentação",
-      "type": "outcome",
-      "id": 11
-    },
-    {
-      "description": "Pede aí",
       "price": 2000,
-      "category": "Desenvolvimento de sites",
+      "category": "Desenvolvimento",
       "type": "income",
-      "id": 12
+      "createdAt": "2023-02-10T13:12:31.104Z",
+      "id": 8
     }
   ]
 }

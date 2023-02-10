@@ -6,6 +6,7 @@ export const mockAddTransactionParams = (): AddTransactionParams => {
     description: faker.random.words(),
     type: faker.helpers.arrayElement(['income', 'outcome']),
     price: faker.datatype.number(),
-    category: faker.random.word()
+    category: faker.random.word(),
+    createdAt: faker.datatype.datetime()
   }
 }

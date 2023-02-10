@@ -3,6 +3,7 @@ export type AddTransactionParams = {
   type: 'income' | 'outcome'
   price: number
   category: string
+  createdAt: Date
 }
 
 export interface AddTransaction {

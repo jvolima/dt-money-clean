@@ -173,8 +173,11 @@ describe('NewTransactionModal component', () => {
     const price = faker.datatype.number()
     const category = faker.random.word()
     const type = faker.helpers.arrayElement(['income', 'outcome'])
+    const createdAt = new Date()
+    const mockDate = jest.spyOn(global, 'Date')
+    mockDate.mockImplementationOnce(() => createdAt)
     simulateValidSubmit(description, price, category, type)
-    await waitFor(() => { expect(addTransactionSpy.params).toEqual({ description, price, category, type }) })
+    await waitFor(() => { expect(addTransactionSpy.params).toEqual({ description, price, category, type, createdAt }) })
   })
 
   it('Should be able to call AddTransaction only once', async () => {

@@ -82,7 +82,8 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
         description: state.description,
         price: Number(state.price),
         category: state.category,
-        type: state.type
+        type: state.type,
+        createdAt: new Date()
       })
 
       toast.success('Transação cadastrada.')
