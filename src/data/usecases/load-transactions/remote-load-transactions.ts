@@ -1,4 +1,5 @@
-import { type HttpGetClient } from '@/data/protocols/http'
+import { HttpStatusCode, type HttpGetClient } from '@/data/protocols/http'
+import { UnexpectedError } from '@/domain/errors'
 import { type TransactionModel } from '@/domain/models'
 
 export class RemoteLoadTransactions {
@@ -8,6 +9,10 @@ export class RemoteLoadTransactions {
   ) {}
 
   async loadAll (): Promise<void> {
-    await this.httpGetClient.get({ url: this.url })
+    const httpResponse = await this.httpGetClient.get({ url: this.url })
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.forbidden: throw new UnexpectedError()
+      default: break
+    }
   }
 }
