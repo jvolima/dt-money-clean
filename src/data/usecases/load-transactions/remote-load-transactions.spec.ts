@@ -2,6 +2,7 @@ import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
 import { UnexpectedError } from '@/domain/errors'
 import { type TransactionModel } from '@/domain/models'
+import { mockTransactionListModel } from '@/domain/test'
 import { faker } from '@faker-js/faker'
 import { RemoteLoadTransactions } from './remote-load-transactions'
 
@@ -25,6 +26,14 @@ describe('RemoteLoadTransactions', () => {
     const { sut, httpGetClientSpy } = makeSut(url)
     await sut.loadAll()
     expect(httpGetClientSpy.url).toBe(url)
+  })
+
+  it('Should be able to return a list of TransactionsModel if HttpGetClient returns 200', async () => {
+    const { sut, httpGetClientSpy } = makeSut()
+    const httpResult = mockTransactionListModel()
+    httpGetClientSpy.response.body = httpResult
+    const transactions = await sut.loadAll()
+    expect(transactions).toEqual(httpResult)
   })
 
   it('Should be able to throw UnexpectedError if HttpGetClient returns 403', async () => {
