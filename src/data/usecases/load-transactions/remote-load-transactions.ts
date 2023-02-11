@@ -11,8 +11,8 @@ export class RemoteLoadTransactions {
   async loadAll (): Promise<void> {
     const httpResponse = await this.httpGetClient.get({ url: this.url })
     switch (httpResponse.statusCode) {
-      case HttpStatusCode.forbidden: throw new UnexpectedError()
-      default: break
+      case HttpStatusCode.ok: break
+      default: throw new UnexpectedError()
     }
   }
 }
