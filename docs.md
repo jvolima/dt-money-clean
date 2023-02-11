@@ -6,8 +6,8 @@
 
 ## Funcionalidades a serem desacopladas dos componentes
 - [] Fetch das transações
-- [] Post das transações 
-- [] Validação do formulário de adicionar nova transação
+- [x] Post das transações 
+- [x] Validação do formulário de adicionar nova transação
 
 ## Validações para os campos
 - Description: campo obrigatório e mínimo de caracteres igual a 5
@@ -16,4 +16,4 @@
 
 ## Milhas extra
 - [x] Toast após cadastrar transação
-- [] Campo createdAt
+- [x] Campo createdAt
