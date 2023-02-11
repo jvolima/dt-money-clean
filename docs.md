@@ -17,3 +17,4 @@
 ## Milhas extra
 - [x] Toast após cadastrar transação
 - [x] Campo createdAt
+- [] 100% coverage
