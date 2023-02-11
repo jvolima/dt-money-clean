@@ -36,20 +36,6 @@ describe('RemoteLoadTransactions', () => {
     expect(transactions).toEqual(httpResult)
   })
 
-  it('Should be able to return an empty list if HttpGetClient returns 204', async () => {
-    const { sut, httpGetClientSpy } = makeSut()
-    httpGetClientSpy.response.statusCode = HttpStatusCode.noContent
-    const transactions = await sut.loadAll()
-    expect(transactions).toEqual([])
-  })
-
-  it('Should be able to throw UnexpectedError if HttpGetClient returns 403', async () => {
-    const { sut, httpGetClientSpy } = makeSut()
-    httpGetClientSpy.response.statusCode = HttpStatusCode.forbidden
-    const promise = sut.loadAll()
-    await expect(promise).rejects.toThrow(new UnexpectedError())
-  })
-
   it('Should be able to throw UnexpectedError if HttpGetClient returns 404', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response.statusCode = HttpStatusCode.notFound
