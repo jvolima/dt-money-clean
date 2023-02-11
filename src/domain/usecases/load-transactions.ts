@@ -1,5 +1,5 @@
-import { type Transaction } from '../models'
+import { type TransactionModel } from '../models'
 
 export interface LoadTransactions {
-  loadAll: () => Promise<Transaction[]>
+  loadAll: () => Promise<TransactionModel[]>
 }

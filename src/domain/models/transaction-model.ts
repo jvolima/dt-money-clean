@@ -1,4 +1,4 @@
-export type Transaction = {
+export type TransactionModel = {
   id: number
   description: string
   type: 'income' | 'outcome'
