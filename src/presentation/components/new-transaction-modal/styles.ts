@@ -46,7 +46,7 @@ export const Content = styled.div`
       cursor: pointer;
 
       :disabled {
-        opacity: 0.6;
+        opacity: 0.3;
         cursor: not-allowed;
       }
 

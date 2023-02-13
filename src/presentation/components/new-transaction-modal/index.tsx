@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
 import { toast, ToastContainer } from 'react-toastify'
 import { CloseButton, Content, Inputs, Overlay, TransactionType, TransactionTypeButton } from './styles'
-import { Input } from '../input'
+import { Input, FormStatus } from '..'
 import { FormContext } from '@/presentation/contexts/form/form-context'
 import { type Validation } from '@/presentation/protocols/validation'
-import { FormStatus } from '../form-status'
 import { type AddTransaction } from '@/domain/usecases/add-transaction'
 
 type Props = {

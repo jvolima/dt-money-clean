@@ -1,8 +1,8 @@
-import { type AddTransaction } from '@/domain/usecases/add-transaction'
-import { Header, Summary } from '@/presentation/components'
-import { NewTransactionModal } from '@/presentation/components/new-transaction-modal'
-import { type Validation } from '@/presentation/protocols/validation'
 import React from 'react'
+import { type AddTransaction } from '@/domain/usecases/add-transaction'
+import { Header, Summary, NewTransactionModal, SearchForm } from '@/presentation/components'
+import { type Validation } from '@/presentation/protocols/validation'
+import { TransactionsTable, PriceHighlight, TransactionsContainer } from './styles'
 
 type Props = {
   validation: Validation
@@ -27,6 +27,25 @@ export default function Transactions ({ addTransaction, validation }: Props): JS
         <NewTransactionModal addTransaction={addTransaction} validation={validation} onClose={handleCloseModal} />
       </dialog>
       <Summary />
+
+      <TransactionsContainer>
+        <SearchForm />
+
+        <TransactionsTable>
+          <tbody>
+            <tr>
+              <td width="50%">Luna Bus</td>
+               <td>
+                <PriceHighlight variant='income'>
+                  R$ 6.000,00
+                </PriceHighlight>
+              </td>
+              <td>Desenvolvimento</td>
+              <td>12/02/2023</td>
+            </tr>
+          </tbody>
+        </TransactionsTable>
+      </TransactionsContainer>
     </>
   )
 }
