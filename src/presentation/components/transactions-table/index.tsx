@@ -1,6 +1,8 @@
-import { TransactionsContext } from '@/presentation/contexts'
 import React, { useContext } from 'react'
-import { PriceHighlight, TransactionsTableContainer } from './styles'
+import { type LoadTransactions } from '@/domain/usecases'
+import { TransactionsContext } from '@/presentation/contexts'
+import { TransactionItem } from './item'
+import { TransactionsTableContainer } from './styles'
 
 export function TransactionsTable (): JSX.Element {
   const { state } = useContext(TransactionsContext)
@@ -8,16 +10,8 @@ export function TransactionsTable (): JSX.Element {
   return (
     <TransactionsTableContainer>
       <tbody data-testid="tbody">
-        {state.transactions?.map(transaction => (
-          <tr key={transaction.id}>
-            <td width="50%">{transaction.description}</td>
-            <td>
-              <PriceHighlight variant='income'>
-                {transaction.price}
-              </PriceHighlight>
-            </td>
-            <td>{transaction.category}</td>
-          </tr>
+        {state.transactions?.map((transaction: LoadTransactions.Model) => (
+          <TransactionItem key={transaction.id} transaction={transaction} />
         ))}
       </tbody>
     </TransactionsTableContainer>
