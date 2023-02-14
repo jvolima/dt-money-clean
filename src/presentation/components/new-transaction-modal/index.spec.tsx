@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup, fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { NewTransactionModal } from '.'
 import { faker } from '@faker-js/faker'
 import { AddTransactionSpy, ValidationStub } from '@/presentation/test'
@@ -89,8 +89,6 @@ describe('NewTransactionModal component', () => {
       disconnect: jest.fn()
     }))
   })
-
-  afterEach(cleanup)
 
   it('Should be able to start with initial state', () => {
     const validationError = faker.random.words()
