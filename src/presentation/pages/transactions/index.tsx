@@ -1,15 +1,16 @@
-import React from 'react'
-import { type AddTransaction } from '@/domain/usecases/add-transaction'
+import React, { useEffect } from 'react'
 import { Header, Summary, NewTransactionModal, SearchForm } from '@/presentation/components'
 import { type Validation } from '@/presentation/protocols/validation'
 import { TransactionsTable, PriceHighlight, TransactionsContainer } from './styles'
+import { type LoadTransactions, type AddTransaction } from '@/domain/usecases'
 
 type Props = {
   validation: Validation
   addTransaction: AddTransaction
+  loadTransactions: LoadTransactions
 }
 
-export default function Transactions ({ addTransaction, validation }: Props): JSX.Element {
+export default function Transactions ({ addTransaction, validation, loadTransactions }: Props): JSX.Element {
   function handleOpenModal (): void {
     const dialog = document.getElementById('modal') as HTMLDialogElement
     dialog.showModal()
@@ -19,6 +20,10 @@ export default function Transactions ({ addTransaction, validation }: Props): JS
     const dialog = document.getElementById('modal') as HTMLDialogElement
     dialog.close()
   }
+
+  useEffect(() => {
+    loadTransactions.loadAll()
+  }, [])
 
   return (
     <>
