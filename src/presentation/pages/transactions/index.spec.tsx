@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import Transactions from '.'
 import { AddTransactionSpy, LoadTransactionsSpy } from '@/domain/test'
 import { ValidationStub } from '@/presentation/test'
@@ -49,6 +49,16 @@ describe('TransactionsComponent', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('tbody')).not.toBeInTheDocument()
       expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+    })
+  })
+
+  it('Should be able to call LoadTransactions on reload', async () => {
+    const loadTransactionsSpy = new LoadTransactionsSpy()
+    jest.spyOn(loadTransactionsSpy, 'loadAll').mockRejectedValueOnce(new UnexpectedError())
+    makeSut(loadTransactionsSpy)
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('reload'))
+      expect(loadTransactionsSpy.callsCount).toBe(1)
     })
   })
 })

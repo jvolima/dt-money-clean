@@ -14,7 +14,8 @@ type Props = {
 export default function Transactions ({ addTransaction, validation, loadTransactions }: Props): JSX.Element {
   const [state, setState] = useState({
     transactions: [],
-    error: ''
+    error: '',
+    reload: false
   })
 
   function handleOpenModal (): void {
@@ -39,7 +40,7 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         error: error.message
       })
     })
-  }, [])
+  }, [state.reload])
 
   return (
     <>
@@ -52,7 +53,7 @@ export default function Transactions ({ addTransaction, validation, loadTransact
       <TransactionsContainer>
         <SearchForm />
 
-        <TransactionsContext.Provider value={{ state }}>
+        <TransactionsContext.Provider value={{ state, setState }}>
           {state.error ? <LoadError /> : <TransactionsTable />}
         </TransactionsContext.Provider>
       </TransactionsContainer>
