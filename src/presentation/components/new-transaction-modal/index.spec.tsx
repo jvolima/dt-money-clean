@@ -2,7 +2,8 @@ import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { NewTransactionModal } from '.'
 import { faker } from '@faker-js/faker'
-import { AddTransactionSpy, ValidationStub } from '@/presentation/test'
+import { ValidationStub } from '@/presentation/test'
+import { AddTransactionSpy } from '@/domain/test'
 
 type SutParams = {
   validationError: string

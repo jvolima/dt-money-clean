@@ -1,19 +1,8 @@
 import React from 'react'
 import { render, waitFor } from '@testing-library/react'
 import Transactions from '.'
-import { type LoadTransactions } from '@/domain/usecases'
-import { type TransactionModel } from '@/domain/models'
-import { mockTransactionListModel } from '@/domain/test'
-import { AddTransactionSpy, ValidationStub } from '@/presentation/test'
-
-class LoadTransactionsSpy implements LoadTransactions {
-  callsCount = 0
-
-  async loadAll (): Promise<TransactionModel[]> {
-    this.callsCount++
-    return mockTransactionListModel()
-  }
-}
+import { AddTransactionSpy, LoadTransactionsSpy } from '@/domain/test'
+import { ValidationStub } from '@/presentation/test'
 
 type SutTypes = {
   loadTransactionsSpy: LoadTransactionsSpy

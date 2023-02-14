@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { type TransactionModel } from '../models'
+import { type LoadTransactions } from '../usecases'
 
 export const mockTransactionModel = (): TransactionModel => ({
   id: faker.datatype.number(),
@@ -15,3 +16,12 @@ export const mockTransactionListModel = (): TransactionModel[] => ([
   mockTransactionModel(),
   mockTransactionModel()
 ])
+
+export class LoadTransactionsSpy implements LoadTransactions {
+  callsCount = 0
+
+  async loadAll (): Promise<TransactionModel[]> {
+    this.callsCount++
+    return mockTransactionListModel()
+  }
+}
