@@ -12,7 +12,8 @@ type Props = {
 
 export default function Transactions ({ addTransaction, validation, loadTransactions }: Props): JSX.Element {
   const [state, setState] = useState({
-    transactions: []
+    transactions: [],
+    error: ''
   })
 
   function handleOpenModal (): void {
@@ -31,6 +32,11 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         ...state,
         transactions: data
       })
+    }).catch(error => {
+      setState({
+        ...state,
+        error: error.message
+      })
     })
   }, [])
 
@@ -45,21 +51,27 @@ export default function Transactions ({ addTransaction, validation, loadTransact
       <TransactionsContainer>
         <SearchForm />
 
-        <TransactionsTable>
-          <tbody data-testid="tbody">
-            {state.transactions?.map(transaction => (
-              <tr key={transaction.id}>
-                <td width="50%">{transaction.description}</td>
-                <td>
-                  <PriceHighlight variant='income'>
-                    {transaction.price}
-                  </PriceHighlight>
-                </td>
-                <td>{transaction.category}</td>
-              </tr>
-            ))}
-          </tbody>
-        </TransactionsTable>
+        {state.error
+          ? <div data-testid="error">
+              <span>{state.error}</span>
+            </div>
+          : (
+            <TransactionsTable>
+              <tbody data-testid="tbody">
+                {state.transactions?.map(transaction => (
+                  <tr key={transaction.id}>
+                    <td width="50%">{transaction.description}</td>
+                    <td>
+                      <PriceHighlight variant='income'>
+                        {transaction.price}
+                      </PriceHighlight>
+                    </td>
+                    <td>{transaction.category}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </TransactionsTable>
+            )}
       </TransactionsContainer>
     </>
   )
