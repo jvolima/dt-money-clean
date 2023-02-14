@@ -45,18 +45,23 @@ export default function Transactions ({ addTransaction, validation, loadTransact
   return (
     <>
       <Header handleOpenModal={handleOpenModal} />
-      <dialog data-testid="modal" id="modal">
-        <NewTransactionModal addTransaction={addTransaction} validation={validation} onClose={handleCloseModal} />
-      </dialog>
-      <Summary />
+      <TransactionsContext.Provider value={{ state, setState }}>
+        <dialog data-testid="modal" id="modal">
+          <NewTransactionModal
+            addTransaction={addTransaction}
+            validation={validation}
+            onClose={handleCloseModal}
+            reload={() => { setState({ ...state, reload: !state.reload }) }}
+          />
+        </dialog>
+        <Summary />
 
-      <TransactionsContainer>
-        <SearchForm />
+        <TransactionsContainer>
+          <SearchForm />
 
-        <TransactionsContext.Provider value={{ state, setState }}>
           {state.error ? <LoadError /> : <TransactionsTable />}
-        </TransactionsContext.Provider>
-      </TransactionsContainer>
+        </TransactionsContainer>
+      </TransactionsContext.Provider>
     </>
   )
 }

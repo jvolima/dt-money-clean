@@ -11,9 +11,10 @@ type Props = {
   validation: Validation
   addTransaction: AddTransaction
   onClose: () => void
+  reload: () => void
 }
 
-export function NewTransactionModal ({ validation, addTransaction, onClose }: Props): JSX.Element {
+export function NewTransactionModal ({ validation, addTransaction, onClose, reload }: Props): JSX.Element {
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
@@ -87,6 +88,7 @@ export function NewTransactionModal ({ validation, addTransaction, onClose }: Pr
 
       toast.success('Transação cadastrada.')
       resetForm()
+      reload()
     } catch (error) {
       setState({
         ...state,

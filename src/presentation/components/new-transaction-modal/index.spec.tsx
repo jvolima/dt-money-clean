@@ -11,6 +11,7 @@ type SutParams = {
 
 type SutTypes = {
   addTransactionSpy: AddTransactionSpy
+  reloadSpy: () => void
   onClose: () => void
 }
 
@@ -18,13 +19,15 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addTransactionSpy = new AddTransactionSpy()
   validationStub.errorMessage = params?.validationError
+  const reloadSpy = jest.fn()
   const onClose = jest.fn()
   render(
-    <NewTransactionModal validation={validationStub} addTransaction={addTransactionSpy} onClose={onClose} />
+    <NewTransactionModal validation={validationStub} addTransaction={addTransactionSpy} onClose={onClose} reload={reloadSpy} />
   )
 
   return {
     addTransactionSpy,
+    reloadSpy,
     onClose
   }
 }
@@ -206,10 +209,11 @@ describe('NewTransactionModal component', () => {
     })
   })
 
-  it('Should be able to clear fields on success', async () => {
-    makeSut()
+  it('Should be able to clear fields and call reload on success', async () => {
+    const { reloadSpy } = makeSut()
     simulateValidSubmit()
     await waitFor(() => {
+      expect(reloadSpy).toHaveBeenCalled()
       expect(screen.getByTestId('description')).toHaveTextContent('')
       expect(screen.getByTestId('price')).toHaveTextContent('')
       expect(screen.getByTestId('category')).toHaveTextContent('')
