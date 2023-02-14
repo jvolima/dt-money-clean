@@ -1,8 +1,7 @@
-import { HttpStatusCode } from '@/data/protocols/http'
-import { HttpGetClientSpy } from '@/data/test'
-import { mockRemoteTransactionListModel } from '@/data/test/mock-remote-load-transactions'
-import { UnexpectedError } from '@/domain/errors'
 import { faker } from '@faker-js/faker'
+import { HttpStatusCode } from '@/data/protocols/http'
+import { HttpGetClientSpy, mockRemoteTransactionsModel } from '@/data/test'
+import { UnexpectedError } from '@/domain/errors'
 import { RemoteLoadTransactions } from './remote-load-transactions'
 
 type SutTypes = {
@@ -29,7 +28,7 @@ describe('RemoteLoadTransactions', () => {
 
   it('Should be able to return a list of LoadTransactions.Model if HttpGetClient returns 200', async () => {
     const { sut, httpGetClientSpy } = makeSut()
-    const httpResult = mockRemoteTransactionListModel()
+    const httpResult = mockRemoteTransactionsModel()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.ok,
       body: httpResult

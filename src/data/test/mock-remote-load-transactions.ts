@@ -10,7 +10,7 @@ export const mockRemoteTransactionModel = (): RemoteLoadTransactions.Model => ({
   type: faker.helpers.arrayElement(['income', 'outcome'])
 })
 
-export const mockRemoteTransactionListModel = (): RemoteLoadTransactions.Model[] => ([
+export const mockRemoteTransactionsModel = (): RemoteLoadTransactions.Model[] => ([
   mockRemoteTransactionModel(),
   mockRemoteTransactionModel(),
   mockRemoteTransactionModel()
