@@ -1,6 +1,6 @@
-import { FormContext } from '@/presentation/contexts/form/form-context'
 import React, { useContext } from 'react'
-import { Spinner } from '../spinner'
+import { FormContext } from '@/presentation/contexts'
+import { Spinner } from '@/presentation/components'
 import { FormStatusContainer } from './styles'
 
 export function FormStatus (): JSX.Element {

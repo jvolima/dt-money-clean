@@ -1,8 +1,8 @@
 import React from 'react'
-import { FormContext } from '@/presentation/contexts/form/form-context'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { Input } from '.'
 import { faker } from '@faker-js/faker'
+import { FormContext } from '@/presentation/contexts'
+import { Input } from '.'
 
 describe('Input component', () => {
   const makeSut = (field: string): void => {

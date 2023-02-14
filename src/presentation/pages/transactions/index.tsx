@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Header, Summary, NewTransactionModal, SearchForm } from '@/presentation/components'
+import { Header, Summary, NewTransactionModal, SearchForm, LoadError, TransactionsTable } from '@/presentation/components'
 import { type Validation } from '@/presentation/protocols/validation'
-import { TransactionsTable, PriceHighlight, TransactionsContainer } from './styles'
+import { TransactionsContainer } from './styles'
 import { type LoadTransactions, type AddTransaction } from '@/domain/usecases'
+import { TransactionsContext } from '@/presentation/contexts'
 
 type Props = {
   validation: Validation
@@ -51,27 +52,9 @@ export default function Transactions ({ addTransaction, validation, loadTransact
       <TransactionsContainer>
         <SearchForm />
 
-        {state.error
-          ? <div data-testid="error">
-              <span>{state.error}</span>
-            </div>
-          : (
-            <TransactionsTable>
-              <tbody data-testid="tbody">
-                {state.transactions?.map(transaction => (
-                  <tr key={transaction.id}>
-                    <td width="50%">{transaction.description}</td>
-                    <td>
-                      <PriceHighlight variant='income'>
-                        {transaction.price}
-                      </PriceHighlight>
-                    </td>
-                    <td>{transaction.category}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </TransactionsTable>
-            )}
+        <TransactionsContext.Provider value={{ state }}>
+          {state.error ? <LoadError /> : <TransactionsTable />}
+        </TransactionsContext.Provider>
       </TransactionsContainer>
     </>
   )
