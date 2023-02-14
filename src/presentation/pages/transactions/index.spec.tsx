@@ -3,15 +3,15 @@ import { render, waitFor, screen } from '@testing-library/react'
 import Transactions from '.'
 import { AddTransactionSpy, LoadTransactionsSpy } from '@/domain/test'
 import { ValidationStub } from '@/presentation/test'
+import { UnexpectedError } from '@/domain/errors'
 
 type SutTypes = {
   loadTransactionsSpy: LoadTransactionsSpy
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (loadTransactionsSpy = new LoadTransactionsSpy()): SutTypes => {
   const addTransactionSpy = new AddTransactionSpy()
   const validationStub = new ValidationStub()
-  const loadTransactionsSpy = new LoadTransactionsSpy()
   render(<Transactions loadTransactions={loadTransactionsSpy} addTransaction={addTransactionSpy} validation={validationStub} />)
   return {
     loadTransactionsSpy
@@ -37,6 +37,18 @@ describe('TransactionsComponent', () => {
     const tbody = screen.getByTestId('tbody')
     await waitFor(() => {
       expect(tbody.querySelectorAll('tr')).toHaveLength(3)
+      expect(screen.queryByTestId('error')).not.toBeInTheDocument()
+    })
+  })
+
+  it('Should be able to render error on failure', async () => {
+    const loadTransactionsSpy = new LoadTransactionsSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(loadTransactionsSpy, 'loadAll').mockRejectedValueOnce(error)
+    makeSut(loadTransactionsSpy)
+    await waitFor(() => {
+      expect(screen.queryByTestId('tbody')).not.toBeInTheDocument()
+      expect(screen.getByTestId('error')).toHaveTextContent(error.message)
     })
   })
 })
