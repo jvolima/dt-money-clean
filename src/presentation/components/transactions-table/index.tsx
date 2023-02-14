@@ -7,10 +7,12 @@ import { TransactionsTableContainer } from './styles'
 export function TransactionsTable (): JSX.Element {
   const { state } = useContext(TransactionsContext)
 
+  const sortedTransactions = state.transactions?.sort((a, b) => b.createdAt - a.createdAt)
+
   return (
     <TransactionsTableContainer>
       <tbody data-testid="tbody">
-        {state.transactions?.map((transaction: LoadTransactions.Model) => (
+        {sortedTransactions.map((transaction: LoadTransactions.Model) => (
           <TransactionItem key={transaction.id} transaction={transaction} />
         ))}
       </tbody>

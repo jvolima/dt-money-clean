@@ -12,6 +12,7 @@ export function TransactionItem ({ transaction }: Props): JSX.Element {
       <td data-testid="description" width="50%">{transaction.description}</td>
       <td>
         <PriceHighlight data-testid="price" data-type={transaction.type} variant={transaction.type}>
+          {transaction.type === 'outcome' && '- '}
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'

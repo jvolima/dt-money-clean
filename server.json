@@ -63,6 +63,14 @@
       "type": "income",
       "createdAt": "2023-02-10T13:12:31.104Z",
       "id": 8
+    },
+    {
+      "description": "Notebook Dell",
+      "price": 3800,
+      "category": "Eletrônicos",
+      "type": "outcome",
+      "createdAt": "2023-02-14T13:43:38.907Z",
+      "id": 9
     }
   ]
 }

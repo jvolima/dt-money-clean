@@ -1,13 +1,14 @@
 import React from 'react'
 import Transactions from '@/presentation/pages/transactions'
 import { makeTransactionsValidation } from './transactions-validation-factory'
-import { makeRemoteAddTransaction } from '@/main/factories/usecases/add-transaction/remote-add-transaction'
+import { makeRemoteAddTransaction, makeRemoteLoadTransactions } from '@/main/factories/usecases'
 
 export function makeTransactions (): JSX.Element {
   return (
     <Transactions
       addTransaction={makeRemoteAddTransaction()}
       validation={makeTransactionsValidation()}
+      loadTransactions={makeRemoteLoadTransactions()}
     />
   )
 }
