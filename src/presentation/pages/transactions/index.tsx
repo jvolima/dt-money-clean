@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header, Summary, NewTransactionModal, SearchForm } from '@/presentation/components'
 import { type Validation } from '@/presentation/protocols/validation'
 import { TransactionsTable, PriceHighlight, TransactionsContainer } from './styles'
@@ -11,6 +11,10 @@ type Props = {
 }
 
 export default function Transactions ({ addTransaction, validation, loadTransactions }: Props): JSX.Element {
+  const [state, setState] = useState({
+    transactions: []
+  })
+
   function handleOpenModal (): void {
     const dialog = document.getElementById('modal') as HTMLDialogElement
     dialog.showModal()
@@ -22,7 +26,12 @@ export default function Transactions ({ addTransaction, validation, loadTransact
   }
 
   useEffect(() => {
-    loadTransactions.loadAll()
+    loadTransactions.loadAll().then(data => {
+      setState({
+        ...state,
+        transactions: data
+      })
+    })
   }, [])
 
   return (
@@ -37,17 +46,18 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         <SearchForm />
 
         <TransactionsTable>
-          <tbody>
-            <tr>
-              <td width="50%">Luna Bus</td>
-               <td>
-                <PriceHighlight variant='income'>
-                  R$ 6.000,00
-                </PriceHighlight>
-              </td>
-              <td>Desenvolvimento</td>
-              <td>12/02/2023</td>
-            </tr>
+          <tbody data-testid="tbody">
+            {state.transactions?.map(transaction => (
+              <tr key={transaction.id}>
+                <td width="50%">{transaction.description}</td>
+                <td>
+                  <PriceHighlight variant='income'>
+                    {transaction.price}
+                  </PriceHighlight>
+                </td>
+                <td>{transaction.category}</td>
+              </tr>
+            ))}
           </tbody>
         </TransactionsTable>
       </TransactionsContainer>

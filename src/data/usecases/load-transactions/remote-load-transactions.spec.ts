@@ -1,18 +1,17 @@
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
+import { mockRemoteTransactionListModel } from '@/data/test/mock-remote-load-transactions'
 import { UnexpectedError } from '@/domain/errors'
-import { type TransactionModel } from '@/domain/models'
-import { mockTransactionListModel } from '@/domain/test'
 import { faker } from '@faker-js/faker'
 import { RemoteLoadTransactions } from './remote-load-transactions'
 
 type SutTypes = {
   sut: RemoteLoadTransactions
-  httpGetClientSpy: HttpGetClientSpy<TransactionModel[]>
+  httpGetClientSpy: HttpGetClientSpy<RemoteLoadTransactions.Model[]>
 }
 
 const makeSut = (url = faker.internet.url()): SutTypes => {
-  const httpGetClientSpy = new HttpGetClientSpy<TransactionModel[]>()
+  const httpGetClientSpy = new HttpGetClientSpy<RemoteLoadTransactions.Model[]>()
   const sut = new RemoteLoadTransactions(url, httpGetClientSpy)
   return {
     sut,
@@ -28,12 +27,36 @@ describe('RemoteLoadTransactions', () => {
     expect(httpGetClientSpy.url).toBe(url)
   })
 
-  it('Should be able to return a list of TransactionsModel if HttpGetClient returns 200', async () => {
+  it('Should be able to return a list of LoadTransactions.Model if HttpGetClient returns 200', async () => {
     const { sut, httpGetClientSpy } = makeSut()
-    const httpResult = mockTransactionListModel()
-    httpGetClientSpy.response.body = httpResult
+    const httpResult = mockRemoteTransactionListModel()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
     const transactions = await sut.loadAll()
-    expect(transactions).toEqual(httpResult)
+    expect(transactions).toEqual([{
+      id: httpResult[0].id,
+      description: httpResult[0].description,
+      category: httpResult[0].category,
+      price: httpResult[0].price,
+      type: httpResult[0].type,
+      createdAt: new Date(httpResult[0].createdAt)
+    }, {
+      id: httpResult[1].id,
+      description: httpResult[1].description,
+      category: httpResult[1].category,
+      price: httpResult[1].price,
+      type: httpResult[1].type,
+      createdAt: new Date(httpResult[1].createdAt)
+    }, {
+      id: httpResult[2].id,
+      description: httpResult[2].description,
+      category: httpResult[2].category,
+      price: httpResult[2].price,
+      type: httpResult[2].type,
+      createdAt: new Date(httpResult[2].createdAt)
+    }])
   })
 
   it('Should be able to throw UnexpectedError if HttpGetClient returns 404', async () => {

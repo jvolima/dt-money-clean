@@ -1,11 +1,13 @@
-export type AddTransactionParams = {
-  description: string
-  type: 'income' | 'outcome'
-  price: number
-  category: string
-  createdAt: Date
+export interface AddTransaction {
+  add: (params: AddTransaction.Params) => Promise<void>
 }
 
-export interface AddTransaction {
-  add: (params: AddTransactionParams) => Promise<void>
+export namespace AddTransaction {
+  export type Params = {
+    description: string
+    type: 'income' | 'outcome'
+    price: number
+    category: string
+    createdAt: Date
+  }
 }

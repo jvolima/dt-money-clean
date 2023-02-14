@@ -1,14 +1,14 @@
 import { HttpStatusCode, type HttpPostClient } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
-import { type AddTransactionParams } from '@/domain/usecases/add-transaction'
+import { type AddTransaction } from '@/domain/usecases/add-transaction'
 
 export class RemoteAddTransaction {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient<AddTransactionParams, void>
+    private readonly httpPostClient: HttpPostClient<RemoteAddTransaction.Params, void>
   ) {}
 
-  async add (params: AddTransactionParams): Promise<void> {
+  async add (params: AddTransaction.Params): Promise<void> {
     const httpResponse = await this.httpPostClient.post({
       url: this.url,
       body: params
@@ -19,4 +19,8 @@ export class RemoteAddTransaction {
       default: throw new UnexpectedError()
     }
   }
+}
+
+export namespace RemoteAddTransaction {
+  export type Params = AddTransaction.Params
 }

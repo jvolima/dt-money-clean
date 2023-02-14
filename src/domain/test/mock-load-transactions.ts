@@ -1,8 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { type TransactionModel } from '../models'
-import { type LoadTransactions } from '../usecases'
+import { type LoadTransactions } from '@/domain/usecases'
 
-export const mockTransactionModel = (): TransactionModel => ({
+export const mockTransactionModel = (): LoadTransactions.Model => ({
   id: faker.datatype.number(),
   category: faker.random.word(),
   description: faker.random.words(),
@@ -11,7 +10,7 @@ export const mockTransactionModel = (): TransactionModel => ({
   type: faker.helpers.arrayElement(['income', 'outcome'])
 })
 
-export const mockTransactionListModel = (): TransactionModel[] => ([
+export const mockTransactionListModel = (): LoadTransactions.Model[] => ([
   mockTransactionModel(),
   mockTransactionModel(),
   mockTransactionModel()
@@ -19,9 +18,10 @@ export const mockTransactionListModel = (): TransactionModel[] => ([
 
 export class LoadTransactionsSpy implements LoadTransactions {
   callsCount = 0
+  transactions = mockTransactionListModel()
 
-  async loadAll (): Promise<TransactionModel[]> {
+  async loadAll (): Promise<LoadTransactions.Model[]> {
     this.callsCount++
-    return mockTransactionListModel()
+    return this.transactions
   }
 }
