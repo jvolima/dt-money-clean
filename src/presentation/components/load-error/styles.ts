@@ -11,6 +11,7 @@ export const LoadErrorContainer = styled.div`
 
   span {
     font-size: 1.25rem;
+    text-align: center;
   }
 
   button {

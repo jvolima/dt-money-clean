@@ -34,10 +34,10 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         ...state,
         transactions: data
       })
-    }).catch(error => {
+    }).catch(() => {
       setState({
         ...state,
-        error: error.message
+        error: 'Algo de errado aconteceu. Tente novamente em breve.'
       })
     })
   }, [state.reload])

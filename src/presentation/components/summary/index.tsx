@@ -1,8 +1,44 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
 import { SummaryContainer, SummaryCard } from './styles'
+import { TransactionsContext } from '@/presentation/contexts'
+import { type LoadTransactions } from '@/domain/usecases'
+
+type Acc = {
+  income: number
+  outcome: number
+  total: number
+}
 
 export function Summary (): JSX.Element {
+  const { state } = useContext(TransactionsContext)
+
+  const summary: Acc = state.transactions?.reduce(
+    (acc: Acc, transaction: LoadTransactions.Model) => {
+      if (transaction.type === 'income') {
+        acc.income += transaction.price
+        acc.total += transaction.price
+      } else {
+        acc.outcome += transaction.price
+        acc.total -= transaction.price
+      }
+
+      return acc
+    },
+    {
+      income: 0,
+      outcome: 0,
+      total: 0
+    }
+  )
+
+  const priceFormatter = (price: number): string => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(price)
+  }
+
   return (
     <SummaryContainer>
       <SummaryCard>
@@ -11,7 +47,7 @@ export function Summary (): JSX.Element {
           <ArrowCircleUp size={32} color="#00b37e" />
         </header>
 
-        <strong>R$ 3.200,00</strong>
+        <strong data-testid="incomes">{priceFormatter(summary?.income)}</strong>
       </SummaryCard>
 
       <SummaryCard>
@@ -20,7 +56,7 @@ export function Summary (): JSX.Element {
           <ArrowCircleDown size={32} color="#f75a68" />
         </header>
 
-        <strong>R$ 1.200,00</strong>
+        <strong data-testid="outcomes">{priceFormatter(summary?.outcome)}</strong>
       </SummaryCard>
 
       <SummaryCard variant="green">
@@ -29,7 +65,7 @@ export function Summary (): JSX.Element {
           <CurrencyDollar size={32} color="#fff" />
         </header>
 
-        <strong>R$ 2.000,00</strong>
+        <strong data-testid="total">{priceFormatter(summary?.total)}</strong>
       </SummaryCard>
     </SummaryContainer>
   )
