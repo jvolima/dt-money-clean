@@ -1,8 +1,8 @@
 import { TransactionsContext } from '@/presentation/contexts'
-import { render, screen } from '@testing-library/react'
 import { Summary } from '.'
-import React from 'react'
 import { mockTransactionListModel, mockTransactionModel } from '@/domain/test'
+import { render, screen } from '@testing-library/react'
+import React from 'react'
 
 const makeSut = (transactions = mockTransactionListModel()): void => {
   render(

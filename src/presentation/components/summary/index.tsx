@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
-import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
 import { SummaryContainer, SummaryCard } from './styles'
 import { TransactionsContext } from '@/presentation/contexts'
 import { type LoadTransactions } from '@/domain/usecases'
+import { priceFormatter } from '@/presentation/utils'
+import React, { useContext } from 'react'
+import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
 
 type Acc = {
   income: number
@@ -31,13 +32,6 @@ export function Summary (): JSX.Element {
       total: 0
     }
   )
-
-  const priceFormatter = (price: number): string => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(price)
-  }
 
   return (
     <SummaryContainer>
