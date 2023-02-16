@@ -19,6 +19,8 @@
 ## Milhas extra
 - [x] Toast após cadastrar transação
 - [x] Campo createdAt
+- [] Price formatter test
 - [] Paginação
+- [] Responsive
 - [] 100% coverage
 - [] Move summary to a custom hook
