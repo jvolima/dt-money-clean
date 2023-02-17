@@ -44,7 +44,7 @@ export function Summary (): JSX.Element {
           <ArrowCircleUp size={32} color="#00b37e" />
         </header>
 
-        <strong data-testid="incomes">{priceFormatter(summary?.income)}</strong>
+        <strong data-testid="incomes">{priceFormatter(summary.income)}</strong>
       </SummaryCard>
 
       <SummaryCard>
@@ -53,7 +53,7 @@ export function Summary (): JSX.Element {
           <ArrowCircleDown size={32} color="#f75a68" />
         </header>
 
-        <strong data-testid="outcomes">{priceFormatter(summary?.outcome)}</strong>
+        <strong data-testid="outcomes">{priceFormatter(summary.outcome)}</strong>
       </SummaryCard>
 
       <SummaryCard variant="green">
@@ -62,7 +62,7 @@ export function Summary (): JSX.Element {
           <CurrencyDollar size={32} color="#fff" />
         </header>
 
-        <strong data-testid="total">{priceFormatter(summary?.total)}</strong>
+        <strong data-testid="total">{priceFormatter(summary.total)}</strong>
       </SummaryCard>
     </SummaryContainer>
   )

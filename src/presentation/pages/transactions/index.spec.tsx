@@ -18,6 +18,9 @@ const makeSut = (loadTransactionsSpy = new LoadTransactionsSpy()): SutTypes => {
   }
 }
 
+global.HTMLDialogElement.prototype.showModal = jest.fn()
+global.HTMLDialogElement.prototype.close = jest.fn()
+
 describe('TransactionsComponent', () => {
   beforeAll(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -49,6 +52,24 @@ describe('TransactionsComponent', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('tbody')).not.toBeInTheDocument()
       expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+    })
+  })
+
+  it('Should be able to open NewTransactionModal', async () => {
+    makeSut()
+    const openModal = screen.getByTestId('new-transaction-button')
+    await waitFor(() => {
+      fireEvent.click(openModal)
+      expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled()
+    })
+  })
+
+  it('Should be able to close NewTransactionModal', async () => {
+    makeSut()
+    const closeModal = screen.getByTestId('close-modal-button')
+    await waitFor(() => {
+      fireEvent.click(closeModal)
+      expect(HTMLDialogElement.prototype.close).toHaveBeenCalled()
     })
   })
 

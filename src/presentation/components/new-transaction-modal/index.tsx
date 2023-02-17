@@ -39,10 +39,10 @@ export function NewTransactionModal ({ validation, addTransaction, onClose, relo
       type
     }
 
-    const descriptionError = validation?.validate('description', formData)
-    const priceError = validation?.validate('price', formData)
-    const categoryError = validation?.validate('category', formData)
-    const typeError = validation?.validate('type', formData)
+    const descriptionError = validation.validate('description', formData)
+    const priceError = validation.validate('price', formData)
+    const categoryError = validation.validate('category', formData)
+    const typeError = validation.validate('type', formData)
 
     setState({
       ...state,
