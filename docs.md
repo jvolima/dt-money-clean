@@ -22,4 +22,5 @@
 - [] Paginação
 - [x] Responsive
 - [] 100% coverage
+- [] Move transactions logic to a context
 - [] Move summary to a custom hook

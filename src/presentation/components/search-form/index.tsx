@@ -15,6 +15,7 @@ export function SearchForm (): JSX.Element {
   return (
     <SearchFormContainer onSubmit={handleSearchTransactions}>
       <input
+        data-testid="search-input"
         type="text"
         placeholder="Busque por transações"
         onChange={(evt) => { setQuery(evt.target.value) }}
