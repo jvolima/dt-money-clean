@@ -1,8 +1,17 @@
 import { TransactionsContext } from '@/presentation/contexts'
 import { TransactionsTable } from '.'
+import { mockTransactionModel } from '@/domain/test'
+import { type LoadTransactions } from '@/domain/usecases'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { mockTransactionModel } from '@/domain/test'
+
+const makeSut = (transactions: LoadTransactions.Model[]): void => {
+  render(
+    <TransactionsContext.Provider value={{ state: { transactions } }}>
+      <TransactionsTable />
+    </TransactionsContext.Provider>
+  )
+}
 
 describe('TransactionsTable component', () => {
   it('Should be able to sort and render correctly', () => {
@@ -23,11 +32,8 @@ describe('TransactionsTable component', () => {
 
     const transactions = [transaction1, transaction2, transaction3]
 
-    render(
-      <TransactionsContext.Provider value={{ state: { transactions } }}>
-        <TransactionsTable />
-      </TransactionsContext.Provider>
-    )
+    makeSut(transactions)
+
     const tbody = screen.getByTestId('tbody')
     const rows = tbody.querySelectorAll('tr')
     expect(rows).toHaveLength(transactions.length)
@@ -36,5 +42,10 @@ describe('TransactionsTable component', () => {
     rows.forEach((row, index) => {
       expect(row.getAttribute('data-testid')).toBe(`transaction-${sortedTransactions[index].id}`)
     })
+  })
+
+  it('Should be able to render without crash when transactions are not defined', () => {
+    makeSut(undefined)
+    expect(screen.getByTestId('tbody')).toBeInTheDocument()
   })
 })
