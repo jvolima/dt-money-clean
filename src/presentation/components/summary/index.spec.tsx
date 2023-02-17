@@ -1,10 +1,11 @@
 import { TransactionsContext } from '@/presentation/contexts'
 import { Summary } from '.'
-import { mockTransactionListModel, mockTransactionModel } from '@/domain/test'
+import { mockTransactionModel } from '@/domain/test'
+import { type LoadTransactions } from '@/domain/usecases'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 
-const makeSut = (transactions = mockTransactionListModel()): void => {
+const makeSut = (transactions: LoadTransactions.Model[]): void => {
   render(
     <TransactionsContext.Provider value={{ state: { transactions } }}>
       <Summary />
@@ -34,9 +35,8 @@ describe('Summary component', () => {
     expect(total).toHaveTextContent('R$ 1.500,00')
   })
 
-  it('Should be able to render correctly when empty list is passed to summary', () => {
-    const transactions = []
-    makeSut(transactions)
+  it('Should be able to render without crash when transactions are not defined', () => {
+    makeSut(undefined)
     const incomes = screen.getByTestId('incomes')
     const outcomes = screen.getByTestId('outcomes')
     const total = screen.getByTestId('total')
