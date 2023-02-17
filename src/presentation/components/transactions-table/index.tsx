@@ -7,7 +7,7 @@ import { TransactionsTableContainer } from './styles'
 export function TransactionsTable (): JSX.Element {
   const { state } = useContext(TransactionsContext)
 
-  const sortedTransactions = state.transactions?.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+  const sortedTransactions = state.transactions?.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()) || []
 
   return (
     <TransactionsTableContainer>
