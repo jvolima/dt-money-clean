@@ -15,7 +15,8 @@ export default function Transactions ({ addTransaction, validation, loadTransact
   const [state, setState] = useState({
     transactions: [],
     error: '',
-    reload: false
+    reload: false,
+    loadData
   })
 
   function handleOpenModal (): void {
@@ -28,8 +29,8 @@ export default function Transactions ({ addTransaction, validation, loadTransact
     dialog.close()
   }
 
-  useEffect(() => {
-    loadTransactions.loadAll({}).then(data => {
+  function loadData (query?: string): void {
+    loadTransactions.loadAll({ query }).then(data => {
       setState({
         ...state,
         transactions: data
@@ -40,6 +41,10 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         error: 'Algo de errado aconteceu. Tente novamente em breve.'
       })
     })
+  }
+
+  useEffect(() => {
+    loadData()
   }, [state.reload])
 
   return (
