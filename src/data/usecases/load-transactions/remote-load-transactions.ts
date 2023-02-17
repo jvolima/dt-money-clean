@@ -8,8 +8,8 @@ export class RemoteLoadTransactions implements LoadTransactions {
     private readonly httpGetClient: HttpGetClient<RemoteLoadTransactions.Model[]>
   ) {}
 
-  async loadAll (): Promise<LoadTransactions.Model[]> {
-    const httpResponse = await this.httpGetClient.get({ url: this.url })
+  async loadAll (params: LoadTransactions.Params): Promise<LoadTransactions.Model[]> {
+    const httpResponse = await this.httpGetClient.get({ url: this.url, query: params.query })
     const remoteTransactions = httpResponse.body || []
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: return remoteTransactions.map(remoteTransaction => Object.assign(remoteTransaction, {

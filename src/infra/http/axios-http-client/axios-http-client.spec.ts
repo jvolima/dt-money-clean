@@ -58,6 +58,14 @@ describe('AxiosHttpClient', () => {
       const request = mockGetRequest()
       await sut.get(request)
 
+      expect(mockedAxios.get).toHaveBeenCalledWith(request.url, { params: { q: request.query } })
+    })
+
+    it('Should not be able to pass query if params.query is null or undefined', async () => {
+      const { sut, mockedAxios } = makeSut()
+      const request = mockGetRequest(null)
+      await sut.get(request)
+
       expect(mockedAxios.get).toHaveBeenCalledWith(request.url)
     })
 

@@ -29,7 +29,7 @@ export default function Transactions ({ addTransaction, validation, loadTransact
   }
 
   useEffect(() => {
-    loadTransactions.loadAll().then(data => {
+    loadTransactions.loadAll({}).then(data => {
       setState({
         ...state,
         transactions: data

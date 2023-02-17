@@ -8,7 +8,7 @@
 - [x] Fetch das transações
 - [x] Post das transações 
 - [x] Validação do formulário de adicionar nova transação
-- [] Summary dinâmico
+- [x] Summary dinâmico
 - [] Search
 
 ## Validações para os campos

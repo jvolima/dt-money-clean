@@ -19,11 +19,13 @@ const makeSut = (url = faker.internet.url()): SutTypes => {
 }
 
 describe('RemoteLoadTransactions', () => {
-  it('Should be able to call HttpGetClient with correct URL', async () => {
+  it('Should be able to call HttpGetClient with correct URL and query params', async () => {
     const url = faker.internet.url()
+    const query = faker.random.word()
     const { sut, httpGetClientSpy } = makeSut(url)
-    await sut.loadAll()
+    await sut.loadAll({ query })
     expect(httpGetClientSpy.url).toBe(url)
+    expect(httpGetClientSpy.query).toBe(query)
   })
 
   it('Should be able to return a list of LoadTransactions.Model if HttpGetClient returns 200', async () => {
@@ -33,7 +35,7 @@ describe('RemoteLoadTransactions', () => {
       statusCode: HttpStatusCode.ok,
       body: httpResult
     }
-    const transactions = await sut.loadAll()
+    const transactions = await sut.loadAll({})
     expect(transactions).toEqual([{
       id: httpResult[0].id,
       description: httpResult[0].description,
@@ -61,14 +63,14 @@ describe('RemoteLoadTransactions', () => {
   it('Should be able to throw UnexpectedError if HttpGetClient returns 404', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response.statusCode = HttpStatusCode.notFound
-    const promise = sut.loadAll()
+    const promise = sut.loadAll({})
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
   it('Should be able to throw UnexpectedError if HttpGetClient returns 500', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response.statusCode = HttpStatusCode.serverError
-    const promise = sut.loadAll()
+    const promise = sut.loadAll({})
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })

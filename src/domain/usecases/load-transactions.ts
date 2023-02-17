@@ -1,5 +1,5 @@
 export interface LoadTransactions {
-  loadAll: () => Promise<LoadTransactions.Model[]>
+  loadAll: (params: LoadTransactions.Params) => Promise<LoadTransactions.Model[]>
 }
 
 export namespace LoadTransactions {
@@ -10,5 +10,9 @@ export namespace LoadTransactions {
     price: number
     category: string
     createdAt: Date
+  }
+
+  export type Params = {
+    query?: string
   }
 }
