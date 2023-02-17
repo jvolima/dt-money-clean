@@ -20,6 +20,7 @@ export const SearchFormContainer = styled.form`
   button {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
 
     border: 0;
@@ -41,6 +42,20 @@ export const SearchFormContainer = styled.form`
       border: 1px solid ${(props) => props.theme['green-500']};
       color: ${(props) => props.theme.white};
       transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+  }
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      width: 50%;
     }
   }
 `

@@ -11,11 +11,13 @@ export function TransactionsTable (): JSX.Element {
 
   return (
     <TransactionsTableContainer>
-      <tbody data-testid="tbody">
-        {sortedTransactions.map((transaction: LoadTransactions.Model) => (
-          <TransactionItem key={transaction.id} transaction={transaction} />
-        ))}
-      </tbody>
+      <table>
+        <tbody data-testid="tbody">
+          {sortedTransactions.map((transaction: LoadTransactions.Model) => (
+            <TransactionItem key={transaction.id} transaction={transaction} />
+          ))}
+        </tbody>
+      </table>
     </TransactionsTableContainer>
   )
 }
