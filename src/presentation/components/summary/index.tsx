@@ -2,10 +2,10 @@ import { SummaryContainer, SummaryCard } from './styles'
 import { TransactionsContext } from '@/presentation/contexts'
 import { type LoadTransactions } from '@/domain/usecases'
 import { priceFormatter } from '@/presentation/utils'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from 'phosphor-react'
 
-type Acc = {
+type SummaryModel = {
   income: number
   outcome: number
   total: number
@@ -13,25 +13,28 @@ type Acc = {
 
 export function Summary (): JSX.Element {
   const { state } = useContext(TransactionsContext)
+  const [summary, setSummary] = useState<SummaryModel>({} as SummaryModel)
 
-  const summary: Acc = state.transactions?.reduce(
-    (acc: Acc, transaction: LoadTransactions.Model) => {
-      if (transaction.type === 'income') {
-        acc.income += transaction.price
-        acc.total += transaction.price
-      } else {
-        acc.outcome += transaction.price
-        acc.total -= transaction.price
+  useEffect(() => {
+    setSummary(state.transactions?.reduce(
+      (acc: SummaryModel, transaction: LoadTransactions.Model) => {
+        if (transaction.type === 'income') {
+          acc.income += transaction.price
+          acc.total += transaction.price
+        } else {
+          acc.outcome += transaction.price
+          acc.total -= transaction.price
+        }
+
+        return acc
+      },
+      {
+        income: 0,
+        outcome: 0,
+        total: 0
       }
-
-      return acc
-    },
-    {
-      income: 0,
-      outcome: 0,
-      total: 0
-    }
-  )
+    ) || { income: 0, outcome: 0, total: 0 })
+  }, [state.transactions])
 
   return (
     <SummaryContainer>

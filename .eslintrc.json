@@ -24,6 +24,7 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-declare": "off",
+    "@typescript-eslint/consistent-type-assertions": "off",
     "n/handle-callback-err": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
