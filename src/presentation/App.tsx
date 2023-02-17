@@ -1,8 +1,8 @@
-import React from 'react'
-import 'react-toastify/dist/ReactToastify.min.css'
-import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from './styles/global'
 import { defaultTheme } from './styles/themes/default'
+import 'react-toastify/dist/ReactToastify.min.css'
+import { ThemeProvider } from 'styled-components'
+import React from 'react'
 
 type Props = {
   makeTransactions: () => JSX.Element

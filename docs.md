@@ -9,7 +9,7 @@
 - [x] Post das transações 
 - [x] Validação do formulário de adicionar nova transação
 - [x] Summary dinâmico
-- [] Search
+- [x] Search
 
 ## Validações para os campos
 - Description: campo obrigatório e mínimo de caracteres igual a 5
@@ -19,8 +19,8 @@
 ## Milhas extra
 - [x] Toast após cadastrar transação
 - [x] Campo createdAt
-- [] Paginação
 - [x] Responsive
+- [] Paginação
 - [] 100% coverage
 - [] Move transactions logic to a context
 - [] Move summary to a custom hook

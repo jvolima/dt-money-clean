@@ -8,7 +8,7 @@ type Props = {
 
 export function TransactionItem ({ transaction }: Props): JSX.Element {
   return (
-    <TransactionItemContainer key={transaction.id}>
+    <TransactionItemContainer data-testid={`transaction-${transaction.id}`} key={transaction.id}>
       <td data-testid="description" width="50%">{transaction.description}</td>
       <td>
         <PriceHighlight data-testid="price" data-type={transaction.type} variant={transaction.type}>
