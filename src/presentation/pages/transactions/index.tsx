@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
 import { Header, Summary, NewTransactionModal, SearchForm, LoadError, TransactionsTable } from '@/presentation/components'
-import { type Validation } from '@/presentation/protocols/validation'
-import { TransactionsContainer } from './styles'
+import { type Validation } from '@/presentation/protocols'
 import { type LoadTransactions, type AddTransaction } from '@/domain/usecases'
 import { TransactionsContext } from '@/presentation/contexts'
+import { TransactionsContainer } from './styles'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
   validation: Validation

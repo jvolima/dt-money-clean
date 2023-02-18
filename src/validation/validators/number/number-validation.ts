@@ -1,5 +1,5 @@
 import { InvalidFieldError } from '@/validation/errors'
-import { type FieldValidation } from '@/validation/protocols/field-validation'
+import { type FieldValidation } from '@/validation/protocols'
 
 export class NumberValidation implements FieldValidation {
   constructor (readonly field: string) {}

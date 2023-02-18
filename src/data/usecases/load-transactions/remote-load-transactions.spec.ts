@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy, mockRemoteTransactionsModel } from '@/data/test'
 import { UnexpectedError } from '@/domain/errors'
 import { RemoteLoadTransactions } from './remote-load-transactions'
+import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   sut: RemoteLoadTransactions

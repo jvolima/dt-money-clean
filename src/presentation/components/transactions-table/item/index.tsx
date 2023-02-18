@@ -1,6 +1,7 @@
-import React from 'react'
 import { type LoadTransactions } from '@/domain/usecases'
+import { dateFormatter, priceFormatter } from '@/presentation/utils'
 import { TransactionItemContainer, PriceHighlight } from './styles'
+import React from 'react'
 
 type Props = {
   transaction: LoadTransactions.Model
@@ -13,14 +14,11 @@ export function TransactionItem ({ transaction }: Props): JSX.Element {
       <td>
         <PriceHighlight data-testid="price" data-type={transaction.type} variant={transaction.type}>
           {transaction.type === 'outcome' && '- '}
-          {new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          }).format(transaction.price)}
+          {priceFormatter(transaction.price)}
         </PriceHighlight>
       </td>
       <td data-testid="category">{transaction.category}</td>
-      <td data-testid="created-at">{new Intl.DateTimeFormat('pt-BR').format(transaction.createdAt)}</td>
+      <td data-testid="created-at">{dateFormatter(transaction.createdAt)}</td>
     </TransactionItemContainer>
   )
 }

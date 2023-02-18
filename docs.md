@@ -22,6 +22,6 @@
 - [x] Responsive
 - [x] 100% coverage
 - [x] Move summary to a custom hook
-- [] Move transactions logic to a context
 - [] Refactor geral
+- [] Clean fav icon
 - [] Paginação

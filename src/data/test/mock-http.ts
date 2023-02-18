@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
 import { type HttpResponse, type HttpPostClient, HttpStatusCode, type HttpPostParams, type HttpGetClient, type HttpGetParams } from '../protocols/http'
+import { faker } from '@faker-js/faker'
 
 export const mockPostRequest = (): HttpPostParams<any> => ({
   url: faker.internet.url(),

@@ -1,10 +1,10 @@
-import React from 'react'
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import Transactions from '.'
 import { AddTransactionSpy, LoadTransactionsSpy } from '@/domain/test'
 import { ValidationStub } from '@/presentation/test'
 import { UnexpectedError } from '@/domain/errors'
 import { faker } from '@faker-js/faker'
+import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import React from 'react'
 
 type SutTypes = {
   loadTransactionsSpy: LoadTransactionsSpy
@@ -74,7 +74,7 @@ describe('TransactionsComponent', () => {
     })
   })
 
-  it('Should be able to toggle reload', async () => {
+  it('Should be able to call LoadTransactions after add a new transaction', async () => {
     const { loadTransactionsSpy } = makeSut()
     fireEvent.input(screen.getByTestId('description'), { target: { value: faker.random.word() } })
     fireEvent.input(screen.getByTestId('category'), { target: { value: faker.random.word() } })
