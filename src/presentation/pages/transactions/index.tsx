@@ -29,6 +29,10 @@ export default function Transactions ({ addTransaction, validation, loadTransact
     dialog.close()
   }
 
+  function toggleReload (): void {
+    setState({ ...state, reload: !state.reload })
+  }
+
   function loadData (query?: string): void {
     loadTransactions.loadAll({ query }).then(data => {
       setState({
@@ -56,7 +60,7 @@ export default function Transactions ({ addTransaction, validation, loadTransact
             addTransaction={addTransaction}
             validation={validation}
             onClose={handleCloseModal}
-            reload={() => { setState({ ...state, reload: !state.reload }) }}
+            reload={toggleReload}
           />
         </dialog>
         <Summary />

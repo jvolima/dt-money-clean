@@ -4,6 +4,7 @@ import Transactions from '.'
 import { AddTransactionSpy, LoadTransactionsSpy } from '@/domain/test'
 import { ValidationStub } from '@/presentation/test'
 import { UnexpectedError } from '@/domain/errors'
+import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   loadTransactionsSpy: LoadTransactionsSpy
@@ -70,6 +71,19 @@ describe('TransactionsComponent', () => {
     await waitFor(() => {
       fireEvent.click(closeModal)
       expect(HTMLDialogElement.prototype.close).toHaveBeenCalled()
+    })
+  })
+
+  it('Should be able to toggle reload', async () => {
+    const { loadTransactionsSpy } = makeSut()
+    fireEvent.input(screen.getByTestId('description'), { target: { value: faker.random.word() } })
+    fireEvent.input(screen.getByTestId('category'), { target: { value: faker.random.word() } })
+    fireEvent.input(screen.getByTestId('price'), { target: { value: faker.datatype.number() } })
+    fireEvent.click(screen.getByTestId('income'))
+    const form = screen.getByTestId('form')
+    await waitFor(() => {
+      fireEvent.submit(form)
+      expect(loadTransactionsSpy.callsCount).toBe(2)
     })
   })
 
