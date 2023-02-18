@@ -20,7 +20,8 @@
 - [x] Toast após cadastrar transação
 - [x] Campo createdAt
 - [x] Responsive
-- [] Paginação
-- [] 100% coverage
+- [x] 100% coverage
+- [x] Move summary to a custom hook
 - [] Move transactions logic to a context
-- [] Move summary to a custom hook
+- [] Refactor geral
+- [] Paginação
