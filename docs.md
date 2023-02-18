@@ -23,5 +23,4 @@
 - [x] 100% coverage
 - [x] Move summary to a custom hook
 - [] Refactor geral
-- [] Clean fav icon
 - [] Paginação
