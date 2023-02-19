@@ -29,30 +29,17 @@ export function NewTransactionModal ({ validation, addTransaction, onClose, relo
     typeError: ''
   })
 
-  useEffect(() => {
+  useEffect(() => { validate('description') }, [state.description])
+  useEffect(() => { validate('price') }, [state.price])
+  useEffect(() => { validate('category') }, [state.category])
+  useEffect(() => { validate('type') }, [state.type])
+
+  const validate = (field: string): void => {
     const { description, price, category, type } = state
-
-    const formData = {
-      description,
-      price: Number(price),
-      category,
-      type
-    }
-
-    const descriptionError = validation.validate('description', formData)
-    const priceError = validation.validate('price', formData)
-    const categoryError = validation.validate('category', formData)
-    const typeError = validation.validate('type', formData)
-
-    setState({
-      ...state,
-      descriptionError,
-      priceError,
-      categoryError,
-      typeError,
-      isFormInvalid: !!descriptionError || !!priceError || !!categoryError || !!typeError
-    })
-  }, [state.description, state.price, state.category, state.type])
+    const formData = { description, price: Number(price), category, type }
+    setState(old => ({ ...old, [`${field}Error`]: validation.validate(field, formData) }))
+    setState(old => ({ ...old, isFormInvalid: !!old.descriptionError || !!old.priceError || !!old.categoryError || !!old.typeError }))
+  }
 
   function resetForm (): void {
     setState({
