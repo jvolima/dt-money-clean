@@ -22,5 +22,6 @@
 - [x] Responsive
 - [x] 100% coverage
 - [x] Move summary to a custom hook
-- [] Refactor geral
+- [x] Refactor geral
 - [] Paginação
+- [] Testes e2e
