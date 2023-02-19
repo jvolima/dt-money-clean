@@ -38,8 +38,8 @@ describe('TransactionsComponent', () => {
 
   it('Should be able to render Transactions on success', async () => {
     makeSut()
-    const tbody = screen.getByTestId('tbody')
     await waitFor(() => {
+      const tbody = screen.getByTestId('tbody')
       expect(tbody.querySelectorAll('tr')).toHaveLength(3)
       expect(screen.queryByTestId('error')).not.toBeInTheDocument()
     })
@@ -53,6 +53,20 @@ describe('TransactionsComponent', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('tbody')).not.toBeInTheDocument()
       expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+    })
+  })
+
+  it('Should be able to render after reload if request succeed', async () => {
+    const loadTransactionsSpy = new LoadTransactionsSpy()
+    jest.spyOn(loadTransactionsSpy, 'loadAll').mockRejectedValueOnce(new UnexpectedError())
+    makeSut(loadTransactionsSpy)
+    await waitFor(async () => {
+      fireEvent.click(screen.getByTestId('reload'))
+      await waitFor(() => {
+        const tbody = screen.getByTestId('tbody')
+        expect(tbody.querySelectorAll('tr')).toHaveLength(3)
+        expect(screen.queryByTestId('error')).not.toBeInTheDocument()
+      })
     })
   })
 

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const LoadErrorContainer = styled.div`
   width: 100%;
-  height: 24rem;
+  height: 20rem;
   display: flex;
   align-items: center;
   justify-content: center;

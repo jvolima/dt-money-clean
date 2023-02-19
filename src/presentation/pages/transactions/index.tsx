@@ -1,8 +1,8 @@
-import { Header, Summary, NewTransactionModal, SearchForm, LoadError, TransactionsTable } from '@/presentation/components'
+import { Header, Summary, NewTransactionModal, SearchForm, LoadError, TransactionsTable, Spinner } from '@/presentation/components'
 import { type Validation } from '@/presentation/protocols'
 import { type LoadTransactions, type AddTransaction } from '@/domain/usecases'
 import { TransactionsContext } from '@/presentation/contexts'
-import { TransactionsContainer } from './styles'
+import { LoadContainer, TransactionsContainer } from './styles'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
@@ -16,7 +16,8 @@ export default function Transactions ({ addTransaction, validation, loadTransact
     transactions: [],
     error: '',
     reload: false,
-    loadData
+    loadData,
+    isLoading: false
   })
 
   function handleOpenModal (): void {
@@ -34,16 +35,21 @@ export default function Transactions ({ addTransaction, validation, loadTransact
   }
 
   function loadData (query?: string): void {
+    setState(old => ({ ...old, isLoading: true }))
+
     loadTransactions.loadAll({ query }).then(data => {
-      setState({
-        ...state,
-        transactions: data
-      })
+      setState(old => ({
+        ...old,
+        transactions: data,
+        error: '',
+        isLoading: false
+      }))
     }).catch(() => {
-      setState({
-        ...state,
-        error: 'Algo de errado aconteceu. Tente novamente em breve.'
-      })
+      setState(old => ({
+        ...old,
+        error: 'Algo de errado aconteceu. Tente novamente em breve.',
+        isLoading: false
+      }))
     })
   }
 
@@ -68,7 +74,10 @@ export default function Transactions ({ addTransaction, validation, loadTransact
         <TransactionsContainer>
           <SearchForm />
 
-          {state.error ? <LoadError /> : <TransactionsTable />}
+          {state.error
+            ? <LoadError />
+            : state.isLoading ? <LoadContainer><Spinner /></LoadContainer> : <TransactionsTable />
+          }
         </TransactionsContainer>
       </TransactionsContext.Provider>
     </>
